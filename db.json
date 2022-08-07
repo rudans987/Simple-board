@@ -1,4 +1,25 @@
 {
+  "list": [
+    {
+      "id": 10,
+      "writer": "sdadasasda",
+      "title": "sadasdasdsa",
+      "contents": "asdasdadasd"
+    },
+    {
+      "id": 11,
+      "title": "ㄴㅁㅇㄴㅁ",
+      "contents": "ㅁㅇㄴㅇㅁ",
+      "writer": "김수정"
+    },
+    {
+      "id": 12,
+      "title": "sss",
+      "contents": "sss",
+      "writer": "김수정"
+    }
+   ],
+    
   "comment_list": [
     {
       "todoId": "3",
@@ -140,12 +161,4 @@
       "id": 24
     }
   ],
-  "todo_list": [
-    {
-      "id": 0,
-      "name": "작성자이름",
-      "title": "제목",
-      "content": "내용"
-    }
-  ]
 }
