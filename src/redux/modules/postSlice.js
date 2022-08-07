@@ -105,7 +105,7 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__deletePost.fulfilled, (state, action) => {
-        return state.list.filter((post) => post.id !== action.payload);
+        state.list = state.list.filter((post) => post.id !== action.payload);
       })
       .addCase(__deletePost.rejected, (state, action) => {
         state.loading = false;
