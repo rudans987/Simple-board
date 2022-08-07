@@ -15,6 +15,10 @@ function Detail() {
   const inputRef = useRef(null); //input에 focus 주기
   const { data } = useSelector((state) => state.comments.commentsByTodoId);
 
+  const URI = {
+    BASE: process.env.REACT_APP_BASE_URI2,
+  };
+
   // 초기값
   const initialState = {
     id: 0,
@@ -45,7 +49,7 @@ function Detail() {
     }
     if (post_id) {
       axios
-        .get(`http://localhost:5001/list?id=${post_id}`)
+        .get(`${URI.BASE}?id=${post_id}`)
         .then((response) => setPost(response.data[0]));
     }
     dispatch(__getCommnetsByTodoId(post_id));

@@ -9,7 +9,7 @@ export const __getCommnetsByTodoId = createAsyncThunk(
   "GET_COMMENT_BY_TODO_ID",
   async (arg, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${URI}?todoId=${arg}`);
+      const { data } = await axios.get(`${URI.BASE}?todoId=${arg}`);
       return thunkAPI.fulfillWithValue(data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -21,7 +21,7 @@ export const __addComment = createAsyncThunk(
   "ADD_COMMENT",
   async (arg, thunkAPI) => {
     try {
-      const { data } = await axios.post(`${URI}`, arg);
+      const { data } = await axios.post(`${URI.BASE}`, arg);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -33,7 +33,7 @@ export const __deleteComment = createAsyncThunk(
   "DELETE_COMMENT",
   async (arg, thunkAPI) => {
     try {
-      await axios.delete(`${URI}/${arg}`);
+      await axios.delete(`${URI.BASE}/${arg}`);
       return thunkAPI.fulfillWithValue(arg);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -45,7 +45,7 @@ export const __updateComment = createAsyncThunk(
   "UPDATE_COMMENT",
   async (arg, thunkAPI) => {
     try {
-      axios.patch(`${URI}/${arg.id}`, arg);
+      axios.patch(`${URI.BASE}/${arg.id}`, arg);
       return thunkAPI.fulfillWithValue(arg);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
