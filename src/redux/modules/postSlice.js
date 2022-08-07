@@ -5,26 +5,27 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const URI = {
+  BASE: process.env.REACT_APP_BASE_URI2,
+};
+
 // 게시글 리스트
 export const __getPostList = createAsyncThunk("GET_POSTS", async () => {
-  const response = await axios.get("http://localhost:5001/list");
+  const response = await axios.get(`${URI.BASE}`);
   // 전체 포스트 리스트
   return response.data;
 });
 
 //게시글 등록
 export const __addPost = createAsyncThunk("ADD_POST", async (new_post_list) => {
-  const response = await axios.post(
-    "http://localhost:5001/list",
-    new_post_list
-  );
+  const response = await axios.post(`${URI.BASE}`, new_post_list);
   // 전체 포스트 리스트
   return response.data;
 });
 
 // 게시글 삭제
 export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
-  const response = await axios.delete(`http://localhost:5001/list/${postId}`);
+  const response = await axios.delete(`${URI.BASE}/${postId}`);
   // 포스트 아이디
   return postId;
 });
@@ -33,7 +34,7 @@ export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
 export const __updatePost = createAsyncThunk(
   "UPDATE_POST",
   async ({ id, writer, title, contents }) => {
-    const response = await axios.put(`http://localhost:5001/list/${id}`, {
+    const response = await axios.put(`${URI.BASE}/${id}`, {
       id: id,
       writer: writer,
       title: title,
