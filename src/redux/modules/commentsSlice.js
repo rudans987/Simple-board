@@ -1,16 +1,19 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const URI = {
+  BASE: process.env.REACT_APP_BASE_URI,
+};
 
 export const __getCommnetsByTodoId = createAsyncThunk(
   "GET_COMMENT_BY_TODO_ID",
   async (arg, thunkAPI) => {
     try {
-      const { data } = await axios.get(`http://localhost:5001/comment_list?todoId=${arg}`);
+      const { data } = await axios.get(`${URI}?todoId=${arg}`);
       return thunkAPI.fulfillWithValue(data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
-    } 
+    }
   }
 );
 
@@ -18,7 +21,7 @@ export const __addComment = createAsyncThunk(
   "ADD_COMMENT",
   async (arg, thunkAPI) => {
     try {
-      const { data } = await axios.post(`http://localhost:5001/comment_list`, arg);
+      const { data } = await axios.post(`${URI}`, arg);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -26,12 +29,11 @@ export const __addComment = createAsyncThunk(
   }
 );
 
-
 export const __deleteComment = createAsyncThunk(
   "DELETE_COMMENT",
   async (arg, thunkAPI) => {
     try {
-      await axios.delete(`http://localhost:5001/comment_list/${arg}`);
+      await axios.delete(`${URI}/${arg}`);
       return thunkAPI.fulfillWithValue(arg);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -39,12 +41,11 @@ export const __deleteComment = createAsyncThunk(
   }
 );
 
-
 export const __updateComment = createAsyncThunk(
   "UPDATE_COMMENT",
   async (arg, thunkAPI) => {
     try {
-      axios.patch(`http://localhost:5001/comment_list/${arg.id}`, arg);
+      axios.patch(`${URI}/${arg.id}`, arg);
       return thunkAPI.fulfillWithValue(arg);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -63,11 +64,8 @@ const initialState = {
 export const commentsSlice = createSlice({
   name: "comments",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: {
-  
-
     // 댓글 조회 (todoId)
     [__getCommnetsByTodoId.pending]: (state) => {
       state.commentsByTodoId.isLoading = true;
@@ -97,7 +95,7 @@ export const commentsSlice = createSlice({
       state.commentsByTodoId.error = action.payload;
     },
 
-  //   // 댓글 수정
+    //   // 댓글 수정
     [__updateComment.pending]: (state) => {},
     [__updateComment.fulfilled]: (state, action) => {
       const target = state.commentsByTodoId.data.findIndex(
