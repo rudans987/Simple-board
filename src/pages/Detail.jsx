@@ -6,10 +6,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { __addPost, __updatePost } from "../redux/modules/postSlice";
 import axios from "axios";
+import AddComment from "../components/comments/AddComment";
+import Comment from "../components/comments/Comment";
+import { __getCommnetsByTodoId } from "../redux/modules/commentsSlice";
 
 function Detail() {
   const dispatch = useDispatch();
   const inputRef = useRef(null); //input에 focus 주기
+  const { data } = useSelector((state) => state.comments.commentsByTodoId);
 
   // 초기값
   const initialState = {
@@ -44,6 +48,8 @@ function Detail() {
         .get(`http://localhost:5001/list?id=${post_id}`)
         .then((response) => setPost(response.data[0]));
     }
+    dispatch(__getCommnetsByTodoId(post_id));
+    return () => dispatch(__getCommnetsByTodoId("a"));
   }, []);
 
   const onChangeHandler = (e) => {
@@ -122,6 +128,13 @@ function Detail() {
           <Button>이전</Button>
         </Link>
       </StyledForm>
+
+      <AddComment />
+      <div>
+        {data.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
+      </div>
     </>
   );
 }

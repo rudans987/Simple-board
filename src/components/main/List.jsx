@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { __getPostList, __deletePost } from "../../redux/modules/postSlice";
 import ListItem from "./ListItem";
@@ -15,9 +15,6 @@ function List() {
   const onDeleteHandler = (postId) => {
     dispatch(__deletePost(postId));
   };
-  const onToggleHandler = (postId) => {
-    dispatch();
-  };
   return (
     <>
       <StyledContainer>
@@ -28,7 +25,6 @@ function List() {
                 key={post.id}
                 post={post}
                 onDeleteHandler={onDeleteHandler}
-                onToggleHandler={onToggleHandler}
               />
             </>
           );

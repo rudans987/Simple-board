@@ -13,7 +13,6 @@ function ListItem({ post, onDeleteHandler }) {
             <p>{post.contents}</p>
           </StyledLink>
           <StyledItemButtons>
-            {/*  onClick={() => onToggleHandler(todo.id) */}
             <Button onClick={() => onDeleteHandler(post.id)}>삭제</Button>
             <Link to={`/update/${post.id}`}>
               <Button>수정</Button>
