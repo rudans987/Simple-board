@@ -9,6 +9,7 @@ import axios from "axios";
 import AddComment from "../components/comments/AddComment";
 import Comment from "../components/comments/Comment";
 import { __getCommnetsByTodoId } from "../redux/modules/commentsSlice";
+import { useForm } from "react-hook-form";
 
 function Detail() {
   const dispatch = useDispatch();
@@ -45,9 +46,6 @@ function Detail() {
   // 초기렌더링 시 input에 focus 주기
   // 비동기통신으로 id에 해당하는 post 정보 가져오기
   useEffect(() => {
-    if (match) {
-      inputRef.current.focus();
-    }
     if (post_id) {
       axios
         .get(`${URI.BASE}?id=${post_id}`)
@@ -57,14 +55,21 @@ function Detail() {
     return () => dispatch(__getCommnetsByTodoId("a"));
   }, []);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
+    console.log(value);
     setPost({ ...post, [name]: value });
   };
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    dispatch(__addPost({ ...post }));
+  const onSubmit = (data) => {
+    dispatch(__addPost({ ...data }));
+    console.log(data);
     navigator("/");
   };
 
@@ -80,49 +85,81 @@ function Detail() {
         })
       );
     }
+    navigator("/");
   };
-
-  const writerErrorMsg = "작성자를 입력해주세요.";
-  const titleErrorMsg = "제목을 입력해주세요.";
-  const contentsErrorMsg = "내용을 입력해주세요.";
 
   return (
     <>
-      <StyledForm
-        action="/"
-        onSubmit={post_id ? onUpdateHandler : onSubmitHandler}
-      >
+      <StyledForm onSubmit={post_id ? onUpdateHandler : handleSubmit(onSubmit)}>
         {post_id ? "게시글 ID : " + post_id : ""}
         <StyledInputBox>
           <StyledLabel>작성자</StyledLabel>
           {match2 ? (
             <h2>{post.writer}</h2>
+          ) : post_id ? (
+            <>
+              <StyledInput
+                name="writer"
+                value={post.writer}
+                onChange={onChangeHandler}
+              />
+            </>
           ) : (
             <>
               <StyledInput
                 name="writer"
-                onChange={onChangeHandler}
                 ref={inputRef}
-                value={post.writer}
-                required
+                {...register("writer", {
+                  required: {
+                    value: true,
+                    message: "작성자를 입력해주세요.",
+                  },
+                  minLength: {
+                    value: 2,
+                    message: "최소 2자 이상의 작성자를 입력해주세요.",
+                  },
+                  maxLength: {
+                    value: 8,
+                    message: "최대 8자 이하의 작성자를 입력해주세요.",
+                  },
+                })}
               />
+              {errors && errors?.writer?.message}
             </>
           )}
         </StyledInputBox>
-        <StyledErrorMsg>{writerErrorMsg}</StyledErrorMsg>
         <StyledInputBox>
           <StyledLabel>제목</StyledLabel>
           {match2 ? (
             <h2>{post.title}</h2>
+          ) : post_id ? (
+            <>
+              <StyledInput
+                name="title"
+                value={post.title}
+                onChange={onChangeHandler}
+              />
+            </>
           ) : (
             <>
               <StyledInput
                 name="title"
-                onChange={onChangeHandler}
-                value={post.title}
-                required
+                {...register("title", {
+                  required: {
+                    value: true,
+                    message: "제목을 입력해주세요.",
+                  },
+                  minLength: {
+                    value: 2,
+                    message: "최소 2자 이상의 제목을 입력해주세요.",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "최대 10자 이하의 제목을 입력해주세요.",
+                  },
+                })}
               />
-              <StyledErrorMsg>{titleErrorMsg}</StyledErrorMsg>
+              {errors && errors?.title?.message}
             </>
           )}
         </StyledInputBox>
@@ -131,19 +168,38 @@ function Detail() {
           <StyledLabel>내용</StyledLabel>
           {match2 ? (
             <h2>{post.contents}</h2>
+          ) : post_id ? (
+            <>
+              <StyledInput
+                name="contents"
+                value={post.contents}
+                onChange={onChangeHandler}
+              />
+            </>
           ) : (
             <>
               <StyledInput
                 name="contents"
-                onChange={onChangeHandler}
-                value={post.contents}
-                required
+                {...register("contents", {
+                  required: {
+                    value: true,
+                    message: "내용을 입력해주세요.",
+                  },
+                  minLength: {
+                    value: 2,
+                    message: "최소 2자 이상의 내용을 입력해주세요.",
+                  },
+                  maxLength: {
+                    value: 100,
+                    message: "최대 100자 이하의 내용을 입력해주세요.",
+                  },
+                })}
               />
+              {errors && errors?.contents?.message}
             </>
           )}
         </StyledInputBox>
-        <StyledErrorMsg>{contentsErrorMsg}</StyledErrorMsg>
-        {match2 ? "" : <Button>글 등록</Button>}
+        {match2 ? "" : match ? <Button>수정</Button> : <Button>글 등록</Button>}
         <Link to="/">
           <Button>이전</Button>
         </Link>
