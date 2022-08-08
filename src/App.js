@@ -4,7 +4,6 @@ import Detail from "./pages/Detail";
 import styled from "styled-components";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 
-
 function App() {
   return (
     <Routes>
@@ -13,8 +12,6 @@ function App() {
       <Route path="/detail/:id" element={<Detail />}></Route>
       <Route path="/update/:id" element={<Detail />}></Route>
     </Routes>
-
-
   );
 }
 
