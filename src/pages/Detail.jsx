@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "../components/common/Button";
 import { useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { __addPost, __updatePost } from "../redux/modules/postSlice";
 import axios from "axios";
 import AddComment from "../components/comments/AddComment";
@@ -12,6 +12,7 @@ import { __getCommnetsByTodoId } from "../redux/modules/commentsSlice";
 
 function Detail() {
   const dispatch = useDispatch();
+  const navigator = useNavigate();
   const inputRef = useRef(null); //input에 focus 주기
   const { data } = useSelector((state) => state.comments.commentsByTodoId);
 
@@ -58,15 +59,13 @@ function Detail() {
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
-    console.log(value);
     setPost({ ...post, [name]: value });
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(__addPost({ ...post }));
-    setPost(initialState); //input값 초기값으로 다시 세팅
-    inputRef.current.focus(); // 등록될 때마다 input에 focus 주기
+    navigator("/");
   };
 
   const onUpdateHandler = (e) => {
@@ -83,50 +82,67 @@ function Detail() {
     }
   };
 
+  const writerErrorMsg = "작성자를 입력해주세요.";
+  const titleErrorMsg = "제목을 입력해주세요.";
+  const contentsErrorMsg = "내용을 입력해주세요.";
+
   return (
     <>
-      <StyledForm onSubmit={post_id ? onUpdateHandler : onSubmitHandler}>
+      <StyledForm
+        action="/"
+        onSubmit={post_id ? onUpdateHandler : onSubmitHandler}
+      >
         {post_id ? "게시글 ID : " + post_id : ""}
         <StyledInputBox>
           <StyledLabel>작성자</StyledLabel>
           {match2 ? (
             <h2>{post.writer}</h2>
           ) : (
-            <StyledInput
-              name="writer"
-              onChange={onChangeHandler}
-              ref={inputRef}
-              value={post.writer}
-              required
-            />
+            <>
+              <StyledInput
+                name="writer"
+                onChange={onChangeHandler}
+                ref={inputRef}
+                value={post.writer}
+                required
+              />
+            </>
           )}
         </StyledInputBox>
+        <StyledErrorMsg>{writerErrorMsg}</StyledErrorMsg>
         <StyledInputBox>
           <StyledLabel>제목</StyledLabel>
           {match2 ? (
             <h2>{post.title}</h2>
           ) : (
-            <StyledInput
-              name="title"
-              onChange={onChangeHandler}
-              value={post.title}
-              required
-            />
+            <>
+              <StyledInput
+                name="title"
+                onChange={onChangeHandler}
+                value={post.title}
+                required
+              />
+              <StyledErrorMsg>{titleErrorMsg}</StyledErrorMsg>
+            </>
           )}
         </StyledInputBox>
+
         <StyledInputBox>
           <StyledLabel>내용</StyledLabel>
           {match2 ? (
             <h2>{post.contents}</h2>
           ) : (
-            <StyledInput
-              name="contents"
-              onChange={onChangeHandler}
-              value={post.contents}
-              required
-            />
+            <>
+              <StyledInput
+                name="contents"
+                onChange={onChangeHandler}
+                value={post.contents}
+                required
+              />
+            </>
           )}
         </StyledInputBox>
+        <StyledErrorMsg>{contentsErrorMsg}</StyledErrorMsg>
         {match2 ? "" : <Button>글 등록</Button>}
         <Link to="/">
           <Button>이전</Button>
@@ -172,6 +188,16 @@ const StyledInputBox = styled.div`
   justify-content: center;
   align-items: center;
   margin: 20px;
+  &input:invalid ~ span {
+    display: block;
+  }
+`;
+
+const StyledErrorMsg = styled.span`
+  color: red;
+  font-size: 12px;
+  padding: 3px;
+  display: none;
 `;
 
 export default Detail;
