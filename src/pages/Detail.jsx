@@ -47,9 +47,12 @@ function Detail() {
   // 비동기통신으로 id에 해당하는 post 정보 가져오기
   useEffect(() => {
     if (post_id) {
-      axios
-        .get(`${URI.BASE}?id=${post_id}`)
-        .then((response) => setPost(response.data[0]));
+      axios.get(`${URI.BASE}?id=${post_id}`).then((response) => {
+        setValue("writer", response.data[0].writer);
+        setValue("title", response.data[0].title);
+        setValue("contents", response.data[0].contents);
+        setPost(response.data[0]);
+      });
     }
     dispatch(__getCommnetsByTodoId(post_id));
     return () => dispatch(__getCommnetsByTodoId("a"));
@@ -59,13 +62,8 @@ function Detail() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
-
-  const onChangeHandler = (e) => {
-    const { name, value } = e.target;
-    console.log(value);
-    setPost({ ...post, [name]: value });
-  };
 
   const onSubmit = (data) => {
     dispatch(__addPost({ ...data }));
@@ -73,15 +71,14 @@ function Detail() {
     navigator("/");
   };
 
-  const onUpdateHandler = (e) => {
-    e.preventDefault();
+  const onUpdate = (data) => {
     if (post) {
       dispatch(
         __updatePost({
           id: post_id,
-          writer: post.writer,
-          title: post.title,
-          contents: post.contents,
+          writer: data.writer,
+          title: data.title,
+          contents: data.contents,
         })
       );
     }
@@ -90,20 +87,14 @@ function Detail() {
 
   return (
     <>
-      <StyledForm onSubmit={post_id ? onUpdateHandler : handleSubmit(onSubmit)}>
+      <StyledForm
+        onSubmit={post_id ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
+      >
         {post_id ? "게시글 ID : " + post_id : ""}
         <StyledInputBox>
           <StyledLabel>작성자</StyledLabel>
           {match2 ? (
             <h2>{post.writer}</h2>
-          ) : post_id ? (
-            <>
-              <StyledInput
-                name="writer"
-                value={post.writer}
-                onChange={onChangeHandler}
-              />
-            </>
           ) : (
             <>
               <StyledInput
@@ -132,14 +123,6 @@ function Detail() {
           <StyledLabel>제목</StyledLabel>
           {match2 ? (
             <h2>{post.title}</h2>
-          ) : post_id ? (
-            <>
-              <StyledInput
-                name="title"
-                value={post.title}
-                onChange={onChangeHandler}
-              />
-            </>
           ) : (
             <>
               <StyledInput
@@ -168,14 +151,6 @@ function Detail() {
           <StyledLabel>내용</StyledLabel>
           {match2 ? (
             <h2>{post.contents}</h2>
-          ) : post_id ? (
-            <>
-              <StyledInput
-                name="contents"
-                value={post.contents}
-                onChange={onChangeHandler}
-              />
-            </>
           ) : (
             <>
               <StyledInput
