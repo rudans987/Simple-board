@@ -1,21 +1,42 @@
 import React, { useRef, useState, useEffect } from "react";
-import styled from "styled-components";
-import Button from "../components/common/Button";
 import { useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { __addPost, __updatePost } from "../redux/modules/postSlice";
-import axios from "axios";
-import AddComment from "../components/comments/AddComment";
-import Comment from "../components/comments/Comment";
 import { __getCommnetsByTodoId } from "../redux/modules/commentsSlice";
 import { useForm } from "react-hook-form";
+import { __addPost, __updatePost } from "../redux/modules/postSlice";
+import axios from "axios";
+import styled from "styled-components";
+import Button from "../components/common/Button";
+import AddComment from "../components/comments/AddComment";
+import Comment from "../components/comments/Comment";
+import Header from "../components/common/Header";
+
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+  },
+}));
 
 function Detail() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const inputRef = useRef(null); //input에 focus 주기
   const { data } = useSelector((state) => state.comments.commentsByTodoId);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
 
   const URI = {
     BASE: process.env.REACT_APP_BASE_URI2,
@@ -58,13 +79,6 @@ function Detail() {
     return () => dispatch(__getCommnetsByTodoId("a"));
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm();
-
   const onSubmit = (data) => {
     dispatch(__addPost({ ...data }));
     console.log(data);
@@ -87,6 +101,7 @@ function Detail() {
 
   return (
     <>
+      <Header />
       <StyledForm
         onSubmit={post_id ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
       >
@@ -97,9 +112,12 @@ function Detail() {
             <h2>{post.writer}</h2>
           ) : (
             <>
-              <StyledInput
+              <TextField
                 name="writer"
                 ref={inputRef}
+                id="filled-error-helper-text"
+                helperText={errors && errors?.writer?.message}
+                variant="filled"
                 {...register("writer", {
                   required: {
                     value: true,
@@ -115,7 +133,6 @@ function Detail() {
                   },
                 })}
               />
-              {errors && errors?.writer?.message}
             </>
           )}
         </StyledInputBox>
@@ -161,8 +178,8 @@ function Detail() {
                     message: "내용을 입력해주세요.",
                   },
                   minLength: {
-                    value: 2,
-                    message: "최소 2자 이상의 내용을 입력해주세요.",
+                    value: 5,
+                    message: "최소 5자 이상의 내용을 입력해주세요.",
                   },
                   maxLength: {
                     value: 100,

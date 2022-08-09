@@ -6,26 +6,26 @@ import {
 import axios from "axios";
 
 const URI = {
-  BASE: process.env.REACT_APP_BASE_URI2,
+  BASE2: process.env.REACT_APP_BASE_URI2,
 };
 
 // 게시글 리스트
 export const __getPostList = createAsyncThunk("GET_POSTS", async () => {
-  const response = await axios.get(`${URI.BASE}`);
+  const response = await axios.get(`${URI.BASE2}`);
   // 전체 포스트 리스트
   return response.data;
 });
 
 //게시글 등록
 export const __addPost = createAsyncThunk("ADD_POST", async (new_post_list) => {
-  const response = await axios.post(`${URI.BASE}`, new_post_list);
+  const response = await axios.post(`${URI.BASE2}`, new_post_list);
   // 전체 포스트 리스트
   return response.data;
 });
 
 // 게시글 삭제
 export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
-  const response = await axios.delete(`${URI.BASE}/${postId}`);
+  const response = await axios.delete(`${URI.BASE2}/${postId}`);
   // 포스트 아이디
   return postId;
 });
@@ -44,13 +44,6 @@ export const __updatePost = createAsyncThunk(
     return { id, writer, title, contents };
   }
 );
-
-//게시글 아이디로 post 정보 가져오기
-// export const __getPostId = createAsyncThunk("GET_ID", async (postId) => {
-//   const response = await axios.get(`http://localhost:5001/list?id=${postId}`);
-//   // 게시글 리스트
-//   return response.data[0];
-// });
 
 // slice
 const postSlice = createSlice({
@@ -135,14 +128,6 @@ const postSlice = createSlice({
             state.error = action.payload;
           });
       });
-    // .addCase(__getPostId.fulfilled, (state, action) => {
-    //   return (state.post = {
-    //     contents: action.payload.contents,
-    //     title: action.payload.title,
-    //     writer: action.payload.writer,
-    //     ...state.post,
-    //   });
-    // });
   },
 });
 

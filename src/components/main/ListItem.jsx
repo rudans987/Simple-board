@@ -1,51 +1,76 @@
 import React from "react";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { __getPostList, __deletePost } from "../../redux/modules/postSlice";
 import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+// import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import Button from "../common/Button";
+import { VscTrash, VscEdit } from "react-icons/vsc";
+import styled from "styled-components";
+import { notInitialized } from "react-redux/es/utils/useSyncExternalStore";
 
-function ListItem({ post, onDeleteHandler }) {
+const useStyles = makeStyles({
+  root: {
+    width: "60vw",
+    minWidth: 275,
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  link: {
+    textDecoration: "none",
+  },
+});
+
+function ListItem({ post }) {
+  const dispatch = useDispatch();
+  const classes = useStyles();
   return (
     <>
-      <StyledContainer>
-        <StyledContents>
-          <StyledLink to={`/detail/${post.id}`}>
-            <h3>{post.title}</h3>
-            <p>{post.contents}</p>
-          </StyledLink>
-          <StyledItemButtons>
-            <Button onClick={() => onDeleteHandler(post.id)}>삭제</Button>
-            <Link to={`/update/${post.id}`}>
-              <Button>수정</Button>
-            </Link>
-          </StyledItemButtons>
-        </StyledContents>
-      </StyledContainer>
+      <Card className={classes.root} variant="outlined">
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            ID : {post.id}
+          </Typography>
+          <Link className={classes.link} to={`/detail/${post.id}`}>
+            <Typography variant="h5" component="h2">
+              {post.title}
+            </Typography>
+            <Typography variant="body2" component="p">
+              {post.contents}
+              <br />
+            </Typography>
+          </Link>
+        </CardContent>
+        <CardActions>
+          <Button onClick={() => dispatch(__deletePost(post.id))}>
+            <VscTrash />
+          </Button>
+          <Link to={`/update/${post.id}`}>
+            <Button>
+              <VscEdit />
+            </Button>
+          </Link>
+        </CardActions>
+      </Card>
     </>
   );
 }
-
-const StyledContainer = styled.div`
-  width: 60%;
-  border: 1px solid #017573;
-  margin: 10px;
-  border-radius: 10px;
-`;
-
-const StyledContents = styled.div`
-  height: 80px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  padding: 10px;
-`;
-
-const StyledTitle = styled.h3``;
-
-const StyledItemButtons = styled.div``;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-`;
 
 export default ListItem;
