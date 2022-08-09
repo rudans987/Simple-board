@@ -40,12 +40,6 @@
       "writer": "dasda",
       "title": "sada",
       "contents": "asdsasd",
-      "id": 13
-    },
-    {
-      "writer": "dasda",
-      "title": "sada",
-      "contents": "asdsasd",
       "id": 14
     },
     {
@@ -203,6 +197,12 @@
       "title": "sada",
       "contents": "asdsasd",
       "id": 50
+    },
+    {
+      "writer": "하나하나",
+      "title": "하낳나한",
+      "contents": "테스트용ㅇㄹㅇㄹ",
+      "id": 51
     }
   ],
   "comment_list": [
@@ -217,6 +217,45 @@
       "username": "sfsdf",
       "content": "sfdsfds",
       "id": 50
+    },
+    {
+      "todoId": "32",
+      "username": "ㅇㄹㅇㄹㅇ",
+      "content": "123",
+      "id": 51,
+      "todo_id": "32"
+    },
+    {
+      "todoId": "12",
+      "username": "ㅇㄹㅇㄹ",
+      "content": "ㅇㄹㅇㄹ",
+      "id": 52
+    },
+    {
+      "todoId": "12",
+      "username": "ㅇㄹㅇㄹ",
+      "content": "가나다",
+      "id": 53,
+      "todo_id": "12"
+    },
+    {
+      "todoId": "12",
+      "username": "3",
+      "content": "3ㅇㄹㅇㄹㅇㄹ",
+      "id": 54,
+      "todo_id": "12"
+    },
+    {
+      "todoId": "12",
+      "username": "4",
+      "content": "4",
+      "id": 55
+    },
+    {
+      "todoId": "12",
+      "username": "5",
+      "content": "5",
+      "id": 56
     }
   ]
 }
