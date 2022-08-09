@@ -1,91 +1,73 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { __getPostList, __deletePost } from "../../redux/modules/postSlice";
+
 import ListItem from "./ListItem";
 import styled from "styled-components";
 import axios from "axios";
 
+import Loading from "../common/Loading";
+
 function List() {
-  const postlist = useSelector((state) => state.postSlice.list);
-  const dispatch = useDispatch();
-
-  const [posts, setPost] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false); // use this if you want the box to say "loading...". Forgot this lol.
-  const [prevY, setPrevY] = useState(0);
+  const [posts, setPost] = useState([]); //게시물들
+  const [page, setPage] = useState(1); //현재 페이지
+  const [loading, setLoading] = useState(false); //로깅 스피너
   let postsRef = useRef({});
-
   let loadingRef = useRef(null);
-  let prevYRef = useRef({});
   let pageRef = useRef({});
   postsRef.current = posts;
   pageRef.current = page;
+  const itemCount = 5;
 
-  prevYRef.current = prevY;
+  // console.log(postsRef, pageRef);
 
-  console.log("loadingRef: ", loadingRef);
-
-  useEffect(() => {
-    getPosts();
-    setPage(pageRef.current + 1);
-
-    let options = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.5,
-    };
-
-    const observer = new IntersectionObserver(handleObserver, options);
-    observer.observe(loadingRef.current);
-  }, []);
-
-  const handleObserver = (entities, observer) => {
-    const y = entities[0].boundingClientRect.y;
-
-    if (prevYRef.current > y) {
-      console.log("post를 가져온다");
-      getPosts();
-      setPage(pageRef.current + 1);
-    } else {
+  const onIntersect = async ([entry], observer) => {
+    if (entry.isIntersecting && !loading) {
+      observer.unobserve(entry.target);
+      await getPosts();
+      setPage(pageRef.current + 1); //페이지 값 증가
+      observer.observe(entry.target);
     }
-    console.log("currenty: ", y, "prevY: ", prevY);
-    setPrevY(y);
   };
 
+  // 옵저버 생성
+  useEffect(() => {
+    getPosts();
+    setPage(pageRef.current + 1); //페이지 증가
+
+    const observer = new IntersectionObserver(onIntersect, {
+      threshold: 0.4,
+    });
+    observer.observe(loadingRef.current);
+    return () => observer && observer.disconnect();
+  }, []);
+
+  // getPosts : post를 서버에서 가져오는 함수
   const getPosts = async () => {
     try {
+      await setLoading(true); //로딩 시작
+      await new Promise((resolve) => setTimeout(resolve, 1500)); //기다려준다.
       let postsRetrieved = await axios.get(
-        `http://localhost:5001/list?_page=${pageRef.current}&_limit=5`
+        `http://localhost:5001/list?_page=${pageRef.current}&_limit=${itemCount}`
       );
       if (postsRetrieved) {
-        setPost([...postsRef.current, ...postsRetrieved.data]);
+        await setPost([...postsRef.current, ...postsRetrieved.data]);
       }
+      setLoading(false); //로딩 종료
     } catch (error) {
       console.log("ERROR GETTING POSTS");
     }
-  };
-
-  useEffect(() => {
-    dispatch(__getPostList());
-  }, []);
-
-  const onDeleteHandler = (postId) => {
-    dispatch(__deletePost(postId));
   };
 
   return (
     <>
       <StyledContainer>
         {posts.map((post, index) => {
-          return (
-            <>
-              <ListItem
-                key={post.id}
-                post={post}
-                onDeleteHandler={onDeleteHandler}
-              />
-            </>
-          );
+          if (index > 4) {
+            return (
+              <>
+                <ListItem key={post.id} post={post} />
+              </>
+            );
+          }
         })}
         <div
           ref={loadingRef}
@@ -94,9 +76,7 @@ function List() {
             margin: "25px",
           }}
         >
-          <span style={{ display: loading ? "block" : "none" }}>
-            Loading...
-          </span>
+          {loading ? <Loading /> : <></>}
         </div>
       </StyledContainer>
     </>
