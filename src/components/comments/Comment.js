@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
+import Button from '../common/Button';
 import {
   __deleteComment,
   __updateComment,
@@ -60,8 +63,8 @@ const Comment = ({ comment }) => {
   return (
     <div>
       {isEdit ? (
-        <>
-          <div>
+          <Wrapper>
+            <p>작성자 : {comment.username}</p>
             <input
               type="text"
               value={updatedComment}
@@ -69,37 +72,37 @@ const Comment = ({ comment }) => {
                 setUpdatedComment(event.target.value);
               }}
             />
-          </div>
-          <div>
-            <button
-              onClick={onCancelButtonHandler}
-            >
-              <p>취소</p>
-            </button>
-            <button
-              onClick={onUpdateButtonHandler}
-            >
-              <p >저장</p>
-            </button>
-          </div>
-        </>
+
+            <ButtonSet>
+              <Button
+                onClick={onCancelButtonHandler}
+              >
+                <p>취소</p>
+              </Button>
+              <Button
+                onClick={onUpdateButtonHandler}
+              >
+                <p >저장</p>
+              </Button>
+            </ButtonSet>
+          </Wrapper>
+      
       ) : (
         <>
-          <div>
-            <p>{comment.username}</p>
-            <p>{comment.content}</p>
-          </div>
-          <div>
-            <button
+          <Wrapper>
+            <p>작성자 : {comment.username}</p>
+            <p>내용 : {comment.content}</p>
+          
+          <ButtonSet>
+            <EditIcon
               onClick={onChangeEditButtonHandler}
-            >
-              수정
-            </button>
-            <button
+            />
+            <DeleteIcon
               onClick={onDeleteButtonHandler}
-            >삭제
-            </button>
-          </div>
+            />
+          </ButtonSet>
+            
+          </Wrapper>
         </>
       )}
     </div>
@@ -108,5 +111,20 @@ const Comment = ({ comment }) => {
 
 export default Comment;
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid gray;
+  margin: 0 auto;
+  padding: 10px 10px;
+  margin-top: 1rem;
+  width: 700px;
+  .title {
+    display: block;
+  }
+`;
 
-
+const ButtonSet =styled.div`
+  float: right;
+`;
