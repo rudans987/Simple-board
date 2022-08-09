@@ -34,7 +34,7 @@ export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
 export const __updatePost = createAsyncThunk(
   "UPDATE_POST",
   async ({ id, writer, title, contents }) => {
-    const response = await axios.put(`${URI.BASE}/${id}`, {
+    const response = await axios.put(`${URI.BASE2}/${id}`, {
       id: id,
       writer: writer,
       title: title,

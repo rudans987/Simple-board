@@ -69,11 +69,13 @@ function Detail() {
   const match2 = useMatch("/detail/:id");
 
   // 옵셔널 체이닝으로 id가 존재하면 post_id 저장
-  let post_id = match?.params.id;
+  let post_id = "";
   if (match) {
     post_id = match.params.id;
   } else if (match2) {
     post_id = match2.params.id;
+  } else {
+    post_id = match?.params.id;
   }
 
   // 초기렌더링 시 input에 focus 주기
