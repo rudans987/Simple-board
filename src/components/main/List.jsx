@@ -61,7 +61,7 @@ function List() {
         setPost([...postsRef.current, ...postsRetrieved.data]);
       }
     } catch (error) {
-      console.log("ERROR GETTING PHOTOS");
+      console.log("ERROR GETTING POSTS");
     }
   };
 
