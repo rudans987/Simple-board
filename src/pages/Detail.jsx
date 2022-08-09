@@ -223,12 +223,16 @@ function Detail() {
         </div>
       </form>
 
-      <AddComment />
-      <div>
-        {data.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-      </div>
+      {match2 && (
+        <>
+          <AddComment />
+          <div>
+            {data.map((comment) => (
+              <Comment key={comment.id} comment={comment} />
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 }
