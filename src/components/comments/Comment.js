@@ -63,45 +63,45 @@ const Comment = ({ comment }) => {
   return (
     <div>
       {isEdit ? (
-          <Wrapper>
-            <p>작성자 : {comment.username}</p>
-            <input
-              type="text"
-              value={updatedComment}
-              onChange={(event) => {
-                setUpdatedComment(event.target.value);
-              }}
-            />
+        <Wrapper>
+          <p>작성자 : {comment.username}</p>
+          <input
+            type="text"
+            value={updatedComment}
+            onChange={(event) => {
+              setUpdatedComment(event.target.value);
+            }}
+          />
 
-            <ButtonSet>
-              <Button
-                onClick={onCancelButtonHandler}
-              >
-                <p>취소</p>
-              </Button>
-              <Button
-                onClick={onUpdateButtonHandler}
-              >
-                <p >저장</p>
-              </Button>
-            </ButtonSet>
-          </Wrapper>
-      
+          <ButtonSet>
+            <Button
+              onClick={onCancelButtonHandler}
+            >
+              <p>취소</p>
+            </Button>
+            <Button
+              onClick={onUpdateButtonHandler}
+            >
+              <p >저장</p>
+            </Button>
+          </ButtonSet>
+        </Wrapper>
+
       ) : (
         <>
           <Wrapper>
             <p>작성자 : {comment.username}</p>
             <p>내용 : {comment.content}</p>
-          
-          <ButtonSet>
-            <EditIcon
-              onClick={onChangeEditButtonHandler}
-            />
-            <DeleteIcon
-              onClick={onDeleteButtonHandler}
-            />
-          </ButtonSet>
-            
+
+            <ButtonSet>
+              <EditIcon
+                onClick={onChangeEditButtonHandler}
+              />
+              <DeleteIcon
+                onClick={onDeleteButtonHandler}
+              />
+            </ButtonSet>
+
           </Wrapper>
         </>
       )}
@@ -125,6 +125,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const ButtonSet =styled.div`
+const ButtonSet = styled.div`
   float: right;
 `;

@@ -39,7 +39,7 @@ function Detail() {
   const offset = (page - 1) * limit;
 
   const { data } = useSelector((state) => state.comments.commentsByTodoId);
-console.log(data)
+  console.log(data)
   const {
     register,
     handleSubmit,
@@ -50,9 +50,6 @@ console.log(data)
   const URI = {
     BASE: process.env.REACT_APP_BASE_URI2,
   };
-
-
-
 
   // 초기값
   const initialState = {
@@ -210,30 +207,30 @@ console.log(data)
         </Link>
       </StyledForm>
 
-      
+
       {match2 && (<div>
         <AddComment />
         {data.slice(offset, offset + limit).map((comment) => (
           <Comment key={comment.id} comment={comment} />
         ))}
-      {/* 페이지네이션 푸터 */}
-      <footer>
-      <Pagination
-        total={data.length}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-      />
-    </footer>
-    </div>
-          )}
+        {/* 페이지네이션 푸터 */}
+        <footer>
+          <Pagination
+            total={data.length}
+            limit={limit}
+            page={page}
+            setPage={setPage}
+          />
+        </footer>
+      </div>
+      )}
     </>
   );
 }
 export default Detail;
 
 const StyledForm = styled.form`
-  height: 100vh;
+  height: 70vh;
   width: 100%;
   display: flex;
   flex-direction: column;
