@@ -10,8 +10,22 @@ import styled from "styled-components";
 import Button from "../components/common/Button";
 import AddComment from "../components/comments/AddComment";
 import Comment from "../components/comments/Comment";
+import Header from "../components/common/Header";
+
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+  },
+}));
 
 function Detail() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const inputRef = useRef(null); //input에 focus 주기
@@ -87,6 +101,7 @@ function Detail() {
 
   return (
     <>
+      <Header />
       <StyledForm
         onSubmit={post_id ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
       >
@@ -97,9 +112,12 @@ function Detail() {
             <h2>{post.writer}</h2>
           ) : (
             <>
-              <StyledInput
+              <TextField
                 name="writer"
                 ref={inputRef}
+                id="filled-error-helper-text"
+                helperText={errors && errors?.writer?.message}
+                variant="filled"
                 {...register("writer", {
                   required: {
                     value: true,
@@ -115,7 +133,6 @@ function Detail() {
                   },
                 })}
               />
-              {errors && errors?.writer?.message}
             </>
           )}
         </StyledInputBox>
