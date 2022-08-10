@@ -45,6 +45,22 @@ export const __updatePost = createAsyncThunk(
   }
 );
 
+// 무한 스크롤을 위해 게시물을 5개씩 가져오기
+export const __getPostCount = createAsyncThunk(
+  "GET_POST_COUNT",
+  async ({ pageCurrent, itemCount }, thunkAPI) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
+      const response = await axios.get(
+        `http://localhost:5001/list?_page=${pageCurrent}&_limit=${itemCount}`
+      );
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      console.log("ERROR GETTING POSTS");
+    }
+  }
+);
+
 // slice
 const postSlice = createSlice({
   name: "list",
@@ -110,23 +126,26 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__updatePost.fulfilled, (state, action) => {
-        state.list = state.list
-          .map((post) => {
-            if (post.id === action.payload.id) {
-              return {
-                ...post,
-                content: action.payload.contents,
-                title: action.payload.title,
-                writer: action.payload.writer,
-              };
-            } else {
-              return post;
-            }
-          })
-          .addCase(__updatePost.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-          });
+        const target = state.list.findIndex((post) => {
+          return post.id === action.payload.id;
+        });
+        state.commentsByTodoId.data.splice(target, 1, action.payload);
+      })
+      .addCase(__updatePost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(__getPostCount.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(__getPostCount.fulfilled, (state, action) => {
+        state.loading = false;
+        // 리스트 전체 저장
+        state.list = action.payload;
+      })
+      .addCase(__getPostCount.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

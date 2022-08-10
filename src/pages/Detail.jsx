@@ -13,7 +13,7 @@ import Comment from "../components/comments/Comment";
 import Header from "../components/common/Header";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   inputText: {
     width: "60%",
     margin: "20px",
+  },
+  title: {
+    fontSize: "13px",
   },
 }));
 
@@ -122,7 +125,17 @@ function Detail() {
         className={classes.form}
         onSubmit={post_id ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
       >
-        {post_id ? "게시글 ID : " + post_id : ""}
+        {post_id ? (
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            ID : {post.id}
+          </Typography>
+        ) : (
+          ""
+        )}
         <>
           <TextField
             className={classes.inputText}
