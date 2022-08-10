@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { __addPost, __updatePost } from "../redux/modules/postSlice";
 import axios from "axios";
 
+
 import Button from "../components/common/Button";
 import AddComment from "../components/comments/AddComment";
 import Comment from "../components/comments/Comment";
@@ -44,7 +45,6 @@ function Detail() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigator = useNavigate();
-  const inputRef = useRef(null); //input에 focus 주기
   //페이지네이션
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
@@ -56,6 +56,8 @@ function Detail() {
     handleSubmit,
     formState: { errors },
     setValue,
+    setFocus,
+    getValues,
   } = useForm({
     mode: "onChange",
   });
@@ -99,9 +101,10 @@ function Detail() {
         setPost(response.data[0]);
       });
     }
+    setFocus("writer");
     dispatch(__getCommnetsByTodoId(post_id));
     return () => dispatch(__getCommnetsByTodoId("a"));
-  }, []);
+  }, [setFocus]);
 
   const onSubmit = (data) => {
     dispatch(__addPost({ ...data }));
@@ -121,6 +124,10 @@ function Detail() {
       );
     }
     navigator("/");
+  };
+
+  const inputProps = {
+    defaultValue: { ...register("writer") },
   };
 
   return (
@@ -146,9 +153,10 @@ function Detail() {
             className={classes.inputText}
             name="writer"
             label="작성자"
-            ref={inputRef}
             helperText={errors && errors?.writer?.message}
             variant="filled"
+            InputLabelProps={{ shrink: true }}
+            defaultValue=""
             inputProps={match2 ? { readOnly: true } : { readOnly: false }}
             placeholder="작성자(5~8자)"
             {...register("writer", {
@@ -169,11 +177,14 @@ function Detail() {
         </>
         <>
           <TextField
+            id="outlined-helperText"
             className={classes.inputText}
             name="title"
             label="제목"
             helperText={errors && errors?.title?.message}
             variant="filled"
+            defaultValue=""
+            InputLabelProps={{ shrink: true }}
             inputProps={match2 ? { readOnly: true } : { readOnly: false }}
             placeholder="제목(2~10자)"
             {...register("title", {
@@ -194,11 +205,14 @@ function Detail() {
         </>
         <>
           <TextField
+            id="outlined-helperText"
             className={classes.inputText}
             name="contents"
             label="내용"
             rows={4}
             multiline
+            defaultValue=""
+            InputLabelProps={{ shrink: true }}
             helperText={errors && errors?.contents?.message}
             variant="filled"
             inputProps={match2 ? { readOnly: true } : { readOnly: false }}

@@ -15,6 +15,7 @@ function List() {
 
 
   const postlist = useSelector((state) => state.postSlice.list);
+
   const dispatch = useDispatch();
   const [posts, setPost] = useState([]); //게시물들
   const [page, setPage] = useState(1); //현재 페이지
@@ -82,13 +83,28 @@ const URI = {
 
   const onDeleteHandler = (postId) => {
     dispatch(__deletePost(postId));
-    window.location.replace("/");
   };
+
+  function compareArray(a, b) {
+    const answer = [];
+    for (let i = 0; i < a.length; i++) {
+      for (let j = 0; j < b.length; j++) {
+        if (a[i].id == b[j].id) {
+          answer.push(b[j]);
+        }
+      }
+    }
+    return answer;
+  }
+  const realpostlist = compareArray(postlist, posts);
+  console.log(postlist);
+  console.log(posts);
+  console.log(realpostlist);
 
   return (
     <>
       <StyledContainer>
-        {posts.map((post, index) => {
+        {realpostlist.map((post, index) => {
           return (
             <div
             key={post.id}
