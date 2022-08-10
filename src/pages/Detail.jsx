@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { __getCommnetsByTodoId } from "../redux/modules/commentsSlice";
 import { useForm } from "react-hook-form";
 import { __addPost, __updatePost } from "../redux/modules/postSlice";
@@ -14,6 +14,10 @@ import Header from "../components/common/Header";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import Pagination from '../components/comments/Pagination';
+
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,8 +33,13 @@ function Detail() {
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const inputRef = useRef(null); //input에 focus 주기
-  const { data } = useSelector((state) => state.comments.commentsByTodoId);
+  //페이지네이션
+  const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
+  const { data } = useSelector((state) => state.comments.commentsByTodoId);
+  console.log(data)
   const {
     register,
     handleSubmit,
@@ -102,6 +111,7 @@ function Detail() {
   return (
     <>
       <Header />
+
       <StyledForm
         onSubmit={post_id ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
       >
@@ -197,18 +207,30 @@ function Detail() {
         </Link>
       </StyledForm>
 
-      <AddComment />
-      <div>
-        {data.map((comment) => (
+
+      {match2 && (<div>
+        <AddComment />
+        {data.slice(offset, offset + limit).map((comment) => (
           <Comment key={comment.id} comment={comment} />
         ))}
+        {/* 페이지네이션 푸터 */}
+        <footer>
+          <Pagination
+            total={data.length}
+            limit={limit}
+            page={page}
+            setPage={setPage}
+          />
+        </footer>
       </div>
+      )}
     </>
   );
 }
+export default Detail;
 
 const StyledForm = styled.form`
-  height: 100vh;
+  height: 70vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -248,4 +270,4 @@ const StyledErrorMsg = styled.span`
   display: none;
 `;
 
-export default Detail;
+
