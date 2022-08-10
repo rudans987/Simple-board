@@ -86,13 +86,3 @@ const AddCommentForm = () => {
 
 export default AddCommentForm;
 
-// const WrapperForm = styled.form`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   border: 2px solid gray;
-//   margin: 0 auto;
-//   padding: 10px 10px;
-//   margin-top: 1rem;
-//   width: 700px;
-// `;
