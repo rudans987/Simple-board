@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __getPostList,
@@ -90,13 +90,15 @@ const URI = {
       <StyledContainer>
         {posts.map((post, index) => {
           return (
-            <>
+            <div
+            key={post.id}
+            >
               <ListItem
-                key={post.id}
+               
                 post={post}
                 onDeleteHandler={onDeleteHandler}
               />
-            </>
+            </div>
           );
         })}
         <div

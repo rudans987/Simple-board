@@ -1,7 +1,6 @@
 import {
   createAsyncThunk,
   createSlice,
-  isRejectedWithValue,
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -25,7 +24,7 @@ export const __addPost = createAsyncThunk("ADD_POST", async (new_post_list) => {
 
 // 게시글 삭제
 export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
-  const response = await axios.delete(`${URI.BASE2}/${postId}`);
+  await axios.delete(`${URI.BASE2}/${postId}`);
   // 포스트 아이디
   return postId;
 });
@@ -34,7 +33,7 @@ export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
 export const __updatePost = createAsyncThunk(
   "UPDATE_POST",
   async ({ id, writer, title, contents }) => {
-    const response = await axios.put(`${URI.BASE2}/${id}`, {
+   await axios.put(`${URI.BASE2}/${id}`, {
       id: id,
       writer: writer,
       title: title,
