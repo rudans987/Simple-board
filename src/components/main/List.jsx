@@ -1,10 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  __getPostList,
-  __deletePost,
-  __getPostCount,
-} from "../../redux/modules/postSlice";
+import { __getPostList, __deletePost } from "../../redux/modules/postSlice";
 import ListItem from "./ListItem";
 import styled from "styled-components";
 import axios from "axios";
@@ -28,12 +24,6 @@ function List() {
   postsRef.current = posts;
   pageRef.current = page;
   const itemCount = 5;
-
-  // useEffect(() => {
-  //   setPost(postlist);
-  // }, [postlist]);
-
-  // console.log(postsRef, pageRef);
 
   const onIntersect = async ([entry], observer) => {
     // 타겟 엘리멘트가 교차영역에 있고, loading중이 아닐때
@@ -98,22 +88,19 @@ function List() {
     return answer;
   }
   const realpostlist = compareArray(postlist, posts);
-  console.log(postlist);
-  console.log(posts);
-  console.log(realpostlist);
 
   return (
     <>
       <StyledContainer>
         {realpostlist.map((post, index) => {
           return (
-            <>
+            <div key={post.id}>
               <ListItem
                 key={post.id}
                 post={post}
                 onDeleteHandler={onDeleteHandler}
               />
-            </>
+            </div>
           );
         })}
         <div

@@ -125,18 +125,10 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__updatePost.fulfilled, (state, action) => {
-        return state.list.map((post) => {
-          if (post.id === action.payload.id) {
-            return {
-              ...post,
-              content: action.payload.contents,
-              title: action.payload.title,
-              writer: action.payload.writer,
-            };
-          } else {
-            return post;
-          }
-        });
+        const target = state.list.findIndex(
+          (post) => post.id === action.payload.id
+        );
+        state.list.splice(target, 1, action.payload);
       })
       .addCase(__updatePost.rejected, (state, action) => {
         state.loading = false;

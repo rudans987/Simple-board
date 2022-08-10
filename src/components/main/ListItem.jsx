@@ -1,16 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { __getPostList, __deletePost } from "../../redux/modules/postSlice";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-// import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardActions, CardContent, Typography } from "@material-ui/core";
 import Button from "../common/Button";
 import { VscTrash, VscEdit } from "react-icons/vsc";
-
 
 const useStyles = makeStyles({
   root: {
