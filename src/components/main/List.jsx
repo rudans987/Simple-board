@@ -45,11 +45,9 @@ function List() {
       setPage(pageRef.current + 1); //페이지 값 증가
       observer.observe(entry.target);
       setLoading(true);
-      console.log(loading);
     } else if (entry.isIntersecting && loading) {
       observer.unobserve(entry.target);
       setLoading(false);
-      console.log(loading);
     }
   };
 
@@ -84,6 +82,7 @@ function List() {
 
   const onDeleteHandler = (postId) => {
     dispatch(__deletePost(postId));
+    window.location.replace("/");
   };
 
   return (
@@ -107,7 +106,7 @@ function List() {
             margin: "25px",
           }}
         >
-          {!loading && <Loading />}
+          {loading && <Loading />}
         </div>
       </StyledContainer>
     </>
