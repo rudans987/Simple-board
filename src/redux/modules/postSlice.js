@@ -108,7 +108,7 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__addPost.fulfilled, (state, action) => {
-        state.list = [action.payload, ...state.list];
+        state.list = [...state.list, action.payload];
         state.success = true;
       })
       .addCase(__addPost.rejected, (state, action) => {
