@@ -147,9 +147,14 @@ function Detail() {
             name="writer"
             label="작성자"
             ref={inputRef}
+            defaultValue={match2 && setValue}
             helperText={errors && errors?.writer?.message}
             variant="filled"
-            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            inputProps={
+              match2
+                ? { readOnly: true, defaultValue: { ...register("writer") } }
+                : { readOnly: false }
+            }
             placeholder="작성자(5~8자)"
             {...register("writer", {
               required: {
@@ -169,12 +174,17 @@ function Detail() {
         </>
         <>
           <TextField
+            id="outlined-helperText"
             className={classes.inputText}
             name="title"
             label="제목"
             helperText={errors && errors?.title?.message}
             variant="filled"
-            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            inputProps={
+              match2
+                ? { readOnly: true, defaultValue: { ...register("title") } }
+                : { readOnly: false }
+            }
             placeholder="제목(2~10자)"
             {...register("title", {
               required: {
@@ -194,6 +204,7 @@ function Detail() {
         </>
         <>
           <TextField
+            id="outlined-helperText"
             className={classes.inputText}
             name="contents"
             label="내용"
@@ -201,7 +212,11 @@ function Detail() {
             multiline
             helperText={errors && errors?.contents?.message}
             variant="filled"
-            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            inputProps={
+              match2
+                ? { readOnly: true, defaultValue: { ...register("contents") } }
+                : { readOnly: false }
+            }
             placeholder="내용(5~100자)"
             {...register("contents", {
               required: {
