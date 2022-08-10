@@ -14,8 +14,7 @@ import Header from "../components/common/Header";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Typography } from "@material-ui/core";
-import Pagination from '../components/comments/Pagination';
-
+import Pagination from "../components/comments/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +51,6 @@ function Detail() {
   const offset = (page - 1) * limit;
 
   const { data } = useSelector((state) => state.comments.commentsByTodoId);
-  console.log(data)
   const {
     register,
     handleSubmit,
@@ -235,22 +233,22 @@ function Detail() {
         </div>
       </form>
 
-
-      {match2 && (<div>
-        <AddComment />
-        {data.slice(offset, offset + limit).map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-        {/* 페이지네이션 푸터 */}
-        <footer>
-          <Pagination
-            total={data.length}
-            limit={limit}
-            page={page}
-            setPage={setPage}
-          />
-        </footer>
-      </div>
+      {match2 && (
+        <div>
+          <AddComment />
+          {data.slice(offset, offset + limit).map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
+          {/* 페이지네이션 푸터 */}
+          <footer>
+            <Pagination
+              total={data.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </footer>
+        </div>
       )}
     </>
   );

@@ -12,6 +12,8 @@ import axios from "axios";
 import Loading from "../common/Loading";
 
 function List() {
+
+
   const postlist = useSelector((state) => state.postSlice.list);
   const dispatch = useDispatch();
   const [posts, setPost] = useState([]); //게시물들
@@ -42,11 +44,9 @@ const URI = {
       setPage(pageRef.current + 1); //페이지 값 증가
       observer.observe(entry.target);
       setLoading(true);
-      console.log(loading);
     } else if (entry.isIntersecting && loading) {
       observer.unobserve(entry.target);
       setLoading(false);
-      console.log(loading);
     }
   };
 
@@ -65,9 +65,9 @@ const URI = {
       //로딩 시작
       await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
       let postsRetrieved = await axios.get(
+
         `${URI.BASE2}?_page=${pageRef.current}&_limit=${itemCount}`
       );
-      // console.log(postsRef.current.length, postsRetrieved.data.length, cnt);
       if (postsRetrieved) {
         setPost([...postsRef.current, ...postsRetrieved.data]);
       }
@@ -82,6 +82,7 @@ const URI = {
 
   const onDeleteHandler = (postId) => {
     dispatch(__deletePost(postId));
+    window.location.replace("/");
   };
 
   return (
@@ -105,7 +106,7 @@ const URI = {
             margin: "25px",
           }}
         >
-          {!loading && <Loading />}
+          {loading && <Loading />}
         </div>
       </StyledContainer>
     </>

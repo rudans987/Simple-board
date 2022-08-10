@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import useInput from '../hooks/useinput';
+import useInput from "../hooks/useinput";
 import { __addComment } from "../../redux/modules/commentsSlice";
-import Button from '../common/Button';
-import {WrapperForm} from "../common/Wrapper";
-
+import Button from "../common/Button";
+import { WrapperForm } from "../common/Wrapper";
 
 const AddCommentForm = () => {
   const dispatch = useDispatch();
@@ -17,29 +16,29 @@ const AddCommentForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { isDirty, errors }
+    formState: { isDirty, errors },
   } = useForm();
 
   const onAddCommentButtonHandler = (data) => {
-    dispatch(__addComment({
-      todoId: id,
-      username: data.username,
-      content: data.content
-    }));
+    dispatch(
+      __addComment({
+        todoId: id,
+        username: data.username,
+        content: data.content,
+      })
+    );
     setUsername("");
     setContent("");
   };
   const [username, setUsername, onChangeUsernameHandler] = useInput();
   const [content, setContent, onChangeContentHandler] = useInput();
- 
+
   return (
-    
     <WrapperForm onSubmit={handleSubmit(onAddCommentButtonHandler)}>
       <TextField
         required
         id="outlined-required"
         label="작성자이름"
-
         placeholder="작성자이름 (5자 이내)"
         aria-invalid={!isDirty ? undefined : errors.username ? "true" : "false"}
         {...register("username", {
@@ -50,8 +49,8 @@ const AddCommentForm = () => {
           },
         })}
         value={username}
-        type='text'
-        name='username'
+        type="text"
+        name="username"
         onChange={onChangeUsernameHandler}
       />
       {errors.username && <small role="alert">{errors.username.message}</small>}
@@ -60,8 +59,7 @@ const AddCommentForm = () => {
         required
         id="outlined-required"
         label="댓글내용"
-
-        placeholder='댓글내용 (100자 이내)'
+        placeholder="댓글내용 (100자 이내)"
         aria-invalid={!isDirty ? undefined : errors.content ? "true" : "false"}
         {...register("content", {
           required: "내용은 필수 입력사항입니다.",
@@ -71,18 +69,14 @@ const AddCommentForm = () => {
           },
         })}
         value={content}
-        name='content'
-        type='text'
+        name="content"
+        type="text"
         onChange={onChangeContentHandler}
       />
       {errors.content && <small role="alert">{errors.content.message}</small>}
-      <Button type='submit'>
-        추가하기
-      </Button>
+      <Button type="submit">추가하기</Button>
     </WrapperForm>
-  
   );
 };
 
 export default AddCommentForm;
-
