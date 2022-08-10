@@ -81,7 +81,6 @@ function List() {
 
   const onDeleteHandler = (postId) => {
     dispatch(__deletePost(postId));
-    window.location.replace("/");
   };
 
   return (
