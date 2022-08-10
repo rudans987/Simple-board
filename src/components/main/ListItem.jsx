@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __getPostList, __deletePost } from "../../redux/modules/postSlice";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)",
   },
   title: {
-    fontSize: 14,
+    fontSize: 11,
   },
   pos: {
     marginBottom: 12,
@@ -32,10 +32,12 @@ const useStyles = makeStyles({
   link: {
     textDecoration: "none",
   },
+  writer: {
+    fontSize: 14,
+  },
 });
 
-function ListItem({ post }) {
-  const dispatch = useDispatch();
+function ListItem({ post, onDeleteHandler }) {
   const classes = useStyles();
   return (
     <>
@@ -48,18 +50,27 @@ function ListItem({ post }) {
           >
             ID : {post.id}
           </Typography>
+          <Typography
+            className={classes.writer}
+            color="textSecondary"
+            gutterBottom
+          >
+            writer : {post.writer}
+          </Typography>
           <Link className={classes.link} to={`/detail/${post.id}`}>
             <Typography variant="h5" component="h2">
               {post.title}
             </Typography>
             <Typography variant="body2" component="p">
-              {post.contents}
+              {post.contents.length > 15
+                ? post.contents.slice(0, 15).concat("...")
+                : post.contents}
               <br />
             </Typography>
           </Link>
         </CardContent>
         <CardActions>
-          <Button onClick={() => dispatch(__deletePost(post.id))}>
+          <Button onClick={() => onDeleteHandler(post.id)}>
             <VscTrash />
           </Button>
           <Link to={`/update/${post.id}`}>

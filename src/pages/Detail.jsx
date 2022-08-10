@@ -13,18 +13,31 @@ import Comment from "../components/comments/Comment";
 import Header from "../components/common/Header";
 
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { TextField, Typography } from "@material-ui/core";
 import Pagination from '../components/comments/Pagination';
-
-
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
-      width: 200,
+      width: 300,
     },
+  },
+  form: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+  },
+  inputText: {
+    width: "60%",
+    margin: "20px",
+  },
+  title: {
+    fontSize: "13px",
   },
 }));
 
@@ -45,7 +58,9 @@ function Detail() {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+  });
 
   const URI = {
     BASE: process.env.REACT_APP_BASE_URI2,
@@ -66,11 +81,13 @@ function Detail() {
   const match2 = useMatch("/detail/:id");
 
   // 옵셔널 체이닝으로 id가 존재하면 post_id 저장
-  let post_id = match?.params.id;
+  let post_id = "";
   if (match) {
     post_id = match.params.id;
   } else if (match2) {
     post_id = match2.params.id;
+  } else {
+    post_id = match?.params.id;
   }
 
   // 초기렌더링 시 input에 focus 주기
@@ -111,101 +128,112 @@ function Detail() {
   return (
     <>
       <Header />
-
-      <StyledForm
+      <form
+        className={classes.form}
         onSubmit={post_id ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
       >
-        {post_id ? "게시글 ID : " + post_id : ""}
-        <StyledInputBox>
-          <StyledLabel>작성자</StyledLabel>
+        {post_id ? (
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            ID : {post.id}
+          </Typography>
+        ) : (
+          ""
+        )}
+        <>
+          <TextField
+            className={classes.inputText}
+            name="writer"
+            label="작성자"
+            ref={inputRef}
+            helperText={errors && errors?.writer?.message}
+            variant="filled"
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            placeholder="작성자(5~8자)"
+            {...register("writer", {
+              required: {
+                value: true,
+                message: "작성자를 입력해주세요.",
+              },
+              minLength: {
+                value: 2,
+                message: "최소 2자 이상의 작성자를 입력해주세요.",
+              },
+              maxLength: {
+                value: 8,
+                message: "최대 8자 이하의 작성자를 입력해주세요.",
+              },
+            })}
+          />
+        </>
+        <>
+          <TextField
+            className={classes.inputText}
+            name="title"
+            label="제목"
+            helperText={errors && errors?.title?.message}
+            variant="filled"
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            placeholder="제목(2~10자)"
+            {...register("title", {
+              required: {
+                value: true,
+                message: "제목을 입력해주세요.",
+              },
+              minLength: {
+                value: 2,
+                message: "최소 2자 이상의 제목을 입력해주세요.",
+              },
+              maxLength: {
+                value: 10,
+                message: "최대 10자 이하의 제목을 입력해주세요.",
+              },
+            })}
+          />
+        </>
+        <>
+          <TextField
+            className={classes.inputText}
+            name="contents"
+            label="내용"
+            rows={4}
+            multiline
+            helperText={errors && errors?.contents?.message}
+            variant="filled"
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            placeholder="내용(5~100자)"
+            {...register("contents", {
+              required: {
+                value: true,
+                message: "내용을 입력해주세요.",
+              },
+              minLength: {
+                value: 5,
+                message: "최소 5자 이상의 내용을 입력해주세요.",
+              },
+              maxLength: {
+                value: 100,
+                message: "최대 100자 이하의 내용을 입력해주세요.",
+              },
+            })}
+          />
+        </>
+        <div>
           {match2 ? (
-            <h2>{post.writer}</h2>
+            ""
+          ) : match ? (
+            <Button>수정</Button>
           ) : (
-            <>
-              <TextField
-                name="writer"
-                ref={inputRef}
-                id="filled-error-helper-text"
-                helperText={errors && errors?.writer?.message}
-                variant="filled"
-                {...register("writer", {
-                  required: {
-                    value: true,
-                    message: "작성자를 입력해주세요.",
-                  },
-                  minLength: {
-                    value: 2,
-                    message: "최소 2자 이상의 작성자를 입력해주세요.",
-                  },
-                  maxLength: {
-                    value: 8,
-                    message: "최대 8자 이하의 작성자를 입력해주세요.",
-                  },
-                })}
-              />
-            </>
+            <Button>글 등록</Button>
           )}
-        </StyledInputBox>
-        <StyledInputBox>
-          <StyledLabel>제목</StyledLabel>
-          {match2 ? (
-            <h2>{post.title}</h2>
-          ) : (
-            <>
-              <StyledInput
-                name="title"
-                {...register("title", {
-                  required: {
-                    value: true,
-                    message: "제목을 입력해주세요.",
-                  },
-                  minLength: {
-                    value: 2,
-                    message: "최소 2자 이상의 제목을 입력해주세요.",
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: "최대 10자 이하의 제목을 입력해주세요.",
-                  },
-                })}
-              />
-              {errors && errors?.title?.message}
-            </>
-          )}
-        </StyledInputBox>
-
-        <StyledInputBox>
-          <StyledLabel>내용</StyledLabel>
-          {match2 ? (
-            <h2>{post.contents}</h2>
-          ) : (
-            <>
-              <StyledInput
-                name="contents"
-                {...register("contents", {
-                  required: {
-                    value: true,
-                    message: "내용을 입력해주세요.",
-                  },
-                  minLength: {
-                    value: 5,
-                    message: "최소 5자 이상의 내용을 입력해주세요.",
-                  },
-                  maxLength: {
-                    value: 100,
-                    message: "최대 100자 이하의 내용을 입력해주세요.",
-                  },
-                })}
-              />
-              {errors && errors?.contents?.message}
-            </>
-          )}
-        </StyledInputBox>
-        {match2 ? "" : match ? <Button>수정</Button> : <Button>글 등록</Button>}
-        <Link to="/">
-          <Button>이전</Button>
-        </Link>
-      </StyledForm>
+          <Link to="/">
+            <Button>이전</Button>
+          </Link>
+        </div>
+      </form>
 
 
       {match2 && (<div>
@@ -228,46 +256,3 @@ function Detail() {
   );
 }
 export default Detail;
-
-const StyledForm = styled.form`
-  height: 70vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
-
-const StyledInput = styled.input`
-  width: 50vw;
-  margin: 10px;
-  height: 40px;
-  border-radius: 10px;
-  padding: 10px;
-`;
-
-const StyledLabel = styled.label`
-  font-size: 15px;
-  margin: 20px;
-`;
-
-const StyledInputBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
-  &input:invalid ~ span {
-    display: block;
-  }
-`;
-
-const StyledErrorMsg = styled.span`
-  color: red;
-  font-size: 12px;
-  padding: 3px;
-  display: none;
-`;
-
-
