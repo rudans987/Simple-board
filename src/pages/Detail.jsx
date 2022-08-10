@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -43,7 +43,6 @@ function Detail() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigator = useNavigate();
-  const inputRef = useRef(null); //input에 focus 주기
   //페이지네이션
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
@@ -55,6 +54,8 @@ function Detail() {
     handleSubmit,
     formState: { errors },
     setValue,
+    setFocus,
+    getValues,
   } = useForm({
     mode: "onChange",
   });
@@ -98,13 +99,13 @@ function Detail() {
         setPost(response.data[0]);
       });
     }
+    setFocus("writer");
     dispatch(__getCommnetsByTodoId(post_id));
     return () => dispatch(__getCommnetsByTodoId("a"));
-  }, []);
+  }, [setFocus]);
 
   const onSubmit = (data) => {
     dispatch(__addPost({ ...data }));
-    console.log(data);
     navigator("/");
   };
 
@@ -145,15 +146,11 @@ function Detail() {
             className={classes.inputText}
             name="writer"
             label="작성자"
-            ref={inputRef}
-            defaultValue={match2 && setValue}
             helperText={errors && errors?.writer?.message}
             variant="filled"
-            inputProps={
-              match2
-                ? { readOnly: true, defaultValue: { ...register("writer") } }
-                : { readOnly: false }
-            }
+            InputLabelProps={{ shrink: true }}
+            defaultValue=""
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
             placeholder="작성자(5~8자)"
             {...register("writer", {
               required: {
@@ -179,11 +176,9 @@ function Detail() {
             label="제목"
             helperText={errors && errors?.title?.message}
             variant="filled"
-            inputProps={
-              match2
-                ? { readOnly: true, defaultValue: { ...register("title") } }
-                : { readOnly: false }
-            }
+            defaultValue=""
+            InputLabelProps={{ shrink: true }}
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
             placeholder="제목(2~10자)"
             {...register("title", {
               required: {
@@ -209,13 +204,11 @@ function Detail() {
             label="내용"
             rows={4}
             multiline
+            defaultValue=""
+            InputLabelProps={{ shrink: true }}
             helperText={errors && errors?.contents?.message}
             variant="filled"
-            inputProps={
-              match2
-                ? { readOnly: true, defaultValue: { ...register("contents") } }
-                : { readOnly: false }
-            }
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
             placeholder="내용(5~100자)"
             {...register("contents", {
               required: {

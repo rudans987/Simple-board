@@ -1,7 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const URI = {
@@ -24,7 +21,7 @@ export const __addPost = createAsyncThunk("ADD_POST", async (new_post_list) => {
 
 // 게시글 삭제
 export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
-   await axios.delete(`${URI.BASE2}/${postId}`);
+  await axios.delete(`${URI.BASE2}/${postId}`);
   // 포스트 아이디
   return postId;
 });
@@ -51,7 +48,7 @@ export const __getPostCount = createAsyncThunk(
     try {
       await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
       const response = await axios.get(
-        `http://localhost:5001/list?_page=${pageCurrent}&_limit=${itemCount}`
+        `${URI.BASE2}?_page=${pageCurrent}&_limit=${itemCount}`
       );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
@@ -78,7 +75,7 @@ const postSlice = createSlice({
       id: 150,
       title: "post 테스트",
     },
-
+    success: false,
     loading: false,
     error: null,
   },
@@ -93,6 +90,7 @@ const postSlice = createSlice({
         state.loading = false;
         // 리스트 전체 저장
         state.list = action.payload;
+        state.success = true;
       })
       .addCase(__getPostList.rejected, (state, action) => {
         state.loading = false;
@@ -104,6 +102,7 @@ const postSlice = createSlice({
       })
       .addCase(__addPost.fulfilled, (state, action) => {
         state.list = [action.payload, ...state.list];
+        state.success = true;
       })
       .addCase(__addPost.rejected, (state, action) => {
         state.loading = false;
@@ -115,6 +114,7 @@ const postSlice = createSlice({
       })
       .addCase(__deletePost.fulfilled, (state, action) => {
         state.list = state.list.filter((post) => post.id !== action.payload);
+        state.success = true;
       })
       .addCase(__deletePost.rejected, (state, action) => {
         state.loading = false;
@@ -125,10 +125,10 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__updatePost.fulfilled, (state, action) => {
-        const target = state.list.findIndex((post) => {
-          return post.id === action.payload.id;
-        });
-        state.commentsByTodoId.data.splice(target, 1, action.payload);
+        const target = state.list.findIndex(
+          (post) => post.id === action.payload.id
+        );
+        state.list.splice(target, 1, action.payload);
       })
       .addCase(__updatePost.rejected, (state, action) => {
         state.loading = false;
@@ -139,6 +139,7 @@ const postSlice = createSlice({
       })
       .addCase(__getPostCount.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         // 리스트 전체 저장
         state.list = action.payload;
       })
