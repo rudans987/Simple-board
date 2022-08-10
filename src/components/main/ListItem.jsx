@@ -53,7 +53,9 @@ function ListItem({ post }) {
               {post.title}
             </Typography>
             <Typography variant="body2" component="p">
-              {post.contents}
+              {post.contents.length > 15
+                ? post.contents.slice(0, 15).concat("...")
+                : post.contents}
               <br />
             </Typography>
           </Link>
