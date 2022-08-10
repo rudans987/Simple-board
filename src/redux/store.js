@@ -7,11 +7,9 @@ const middlewares = [thunk];
 
 // 리듀서 통합
 const rootReducer = combineReducers({
-  reducer: {
-    postSlice: postSlice.reducer,
-    comments,
-    comment,
-  },
+  postSlice,
+  comments,
+  comment,
   devTools: false,
 });
 
