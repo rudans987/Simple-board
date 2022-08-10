@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import TextField from '@mui/material/TextField';
 
 import Button from '../common/Button';
 import {
@@ -15,6 +16,7 @@ import {
   __getComment,
 } from "../../redux/modules/commentSlice";
 import {Wrapper} from "../common/Wrapper";
+
 
 const Comment = ({ comment }) => {
   const { id } = useParams();
@@ -66,17 +68,21 @@ const Comment = ({ comment }) => {
       {isEdit ? (
         <Wrapper>
           <p>작성자 : {comment.username}</p>
-          <input
-            type="text"
+          <TextField id="outlined-basic" label="내용" variant="outlined" 
+           type="text"
             value={updatedComment}
             onChange={(event) => {
               setUpdatedComment(event.target.value);
             }}
+          
           />
-
           <ButtonSet>
             <Button
               onClick={onCancelButtonHandler}
+              style={{
+                marginRight: "10px",
+              
+            }}  
             >
               <p>취소</p>
             </Button>
@@ -111,7 +117,6 @@ const Comment = ({ comment }) => {
 }
 
 export default Comment;
-
 
 
 const ButtonSet = styled.div`
