@@ -1,7 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const URI = {
@@ -24,9 +21,7 @@ export const __addPost = createAsyncThunk("ADD_POST", async (new_post_list) => {
 
 // 게시글 삭제
 export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
-
    await axios.delete(`${URI.BASE2}/${postId}`);
-
   // 포스트 아이디
   return postId;
 });
