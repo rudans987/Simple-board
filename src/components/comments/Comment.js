@@ -14,6 +14,7 @@ import {
   clearComment,
   __getComment,
 } from "../../redux/modules/commentSlice";
+import {Wrapper} from "../common/Wrapper";
 
 const Comment = ({ comment }) => {
   const { id } = useParams();
@@ -111,19 +112,7 @@ const Comment = ({ comment }) => {
 
 export default Comment;
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid gray;
-  margin: 0 auto;
-  padding: 10px 10px;
-  margin-top: 1rem;
-  width: 700px;
-  .title {
-    display: block;
-  }
-`;
+
 
 const ButtonSet = styled.div`
   float: right;
