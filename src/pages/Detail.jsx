@@ -48,7 +48,9 @@ function Detail() {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+  });
 
   const URI = {
     BASE: process.env.REACT_APP_BASE_URI2,
