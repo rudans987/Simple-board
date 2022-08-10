@@ -37,8 +37,16 @@ export const commentSlice = createSlice({
     },
   },
   extraReducers: {
+    [__getComment.pending]: (state) => {
+      state.data.isLoading = true;
+    },
     [__getComment.fulfilled]: (state, action) => {
+      state.data.isLoading = false;
       state.data = action.payload;
+    },
+    [__getComment.rejected]: (state, action) => {
+      state.data.isLoading = false;
+      state.data.error = action.payload;
     },
   },
 });
