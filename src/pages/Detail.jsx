@@ -108,7 +108,7 @@ function Detail() {
 
   const onSubmit = (data) => {
     dispatch(__addPost({ ...data }));
-    console.log(data);
+
     navigator("/");
   };
 
@@ -126,9 +126,6 @@ function Detail() {
     navigator("/");
   };
 
-  const inputProps = {
-    defaultValue: { ...register("writer") },
-  };
 
   return (
     <>

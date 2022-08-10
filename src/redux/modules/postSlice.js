@@ -135,7 +135,7 @@ const postSlice = createSlice({
         const target = state.list.findIndex((post) => {
           return post.id === action.payload.id;
         });
-        state.commentsByTodoId.data.splice(target, 1, action.payload);
+         state.list.splice(target, 1, action.payload);
       })
       .addCase(__updatePost.rejected, (state, action) => {
         state.loading = false;
