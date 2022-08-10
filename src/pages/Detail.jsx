@@ -123,94 +123,84 @@ function Detail() {
         onSubmit={post_id ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
       >
         {post_id ? "게시글 ID : " + post_id : ""}
-        {match2 ? (
-          <h2>{post.writer}</h2>
-        ) : (
-          <>
-            <TextField
-              className={classes.inputText}
-              name="writer"
-              label="작성자"
-              ref={inputRef}
-              helperText={errors && errors?.writer?.message}
-              variant="filled"
-              placeholder="작성자(5~8자)"
-              {...register("writer", {
-                required: {
-                  value: true,
-                  message: "작성자를 입력해주세요.",
-                },
-                minLength: {
-                  value: 2,
-                  message: "최소 2자 이상의 작성자를 입력해주세요.",
-                },
-                maxLength: {
-                  value: 8,
-                  message: "최대 8자 이하의 작성자를 입력해주세요.",
-                },
-              })}
-            />
-          </>
-        )}
-        {match2 ? (
-          <h2>{post.title}</h2>
-        ) : (
-          <>
-            <TextField
-              className={classes.inputText}
-              name="title"
-              label="제목"
-              helperText={errors && errors?.title?.message}
-              variant="filled"
-              placeholder="제목(2~10자)"
-              {...register("title", {
-                required: {
-                  value: true,
-                  message: "제목을 입력해주세요.",
-                },
-                minLength: {
-                  value: 2,
-                  message: "최소 2자 이상의 제목을 입력해주세요.",
-                },
-                maxLength: {
-                  value: 10,
-                  message: "최대 10자 이하의 제목을 입력해주세요.",
-                },
-              })}
-            />
-          </>
-        )}
-
-        {match2 ? (
-          <h2>{post.contents}</h2>
-        ) : (
-          <>
-            <TextField
-              className={classes.inputText}
-              name="contents"
-              label="내용"
-              rows={4}
-              multiline
-              helperText={errors && errors?.contents?.message}
-              variant="filled"
-              placeholder="내용(5~100자)"
-              {...register("contents", {
-                required: {
-                  value: true,
-                  message: "내용을 입력해주세요.",
-                },
-                minLength: {
-                  value: 5,
-                  message: "최소 5자 이상의 내용을 입력해주세요.",
-                },
-                maxLength: {
-                  value: 100,
-                  message: "최대 100자 이하의 내용을 입력해주세요.",
-                },
-              })}
-            />
-          </>
-        )}
+        <>
+          <TextField
+            className={classes.inputText}
+            name="writer"
+            label="작성자"
+            ref={inputRef}
+            helperText={errors && errors?.writer?.message}
+            variant="filled"
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            placeholder="작성자(5~8자)"
+            {...register("writer", {
+              required: {
+                value: true,
+                message: "작성자를 입력해주세요.",
+              },
+              minLength: {
+                value: 2,
+                message: "최소 2자 이상의 작성자를 입력해주세요.",
+              },
+              maxLength: {
+                value: 8,
+                message: "최대 8자 이하의 작성자를 입력해주세요.",
+              },
+            })}
+          />
+        </>
+        <>
+          <TextField
+            className={classes.inputText}
+            name="title"
+            label="제목"
+            helperText={errors && errors?.title?.message}
+            variant="filled"
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            placeholder="제목(2~10자)"
+            {...register("title", {
+              required: {
+                value: true,
+                message: "제목을 입력해주세요.",
+              },
+              minLength: {
+                value: 2,
+                message: "최소 2자 이상의 제목을 입력해주세요.",
+              },
+              maxLength: {
+                value: 10,
+                message: "최대 10자 이하의 제목을 입력해주세요.",
+              },
+            })}
+          />
+        </>
+        <>
+          <TextField
+            className={classes.inputText}
+            name="contents"
+            label="내용"
+            rows={4}
+            multiline
+            helperText={errors && errors?.contents?.message}
+            variant="filled"
+            inputProps={match2 ? { readOnly: true } : { readOnly: false }}
+            placeholder="내용(5~100자)"
+            {...register("contents", {
+              required: {
+                value: true,
+                message: "내용을 입력해주세요.",
+              },
+              minLength: {
+                value: 5,
+                message: "최소 5자 이상의 내용을 입력해주세요.",
+              },
+              maxLength: {
+                value: 100,
+                message: "최대 100자 이하의 내용을 입력해주세요.",
+              },
+            })}
+          />
+        </>
         <div>
           {match2 ? (
             ""
