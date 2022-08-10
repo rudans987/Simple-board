@@ -8,9 +8,7 @@ import axios from "axios";
 import Loading from "../common/Loading";
 
 function List() {
-  const URI = {
-    BASE: process.env.REACT_APP_BASE_URI2,
-  };
+
 
   const postlist = useSelector((state) => state.postSlice.list);
   const loading = useSelector((state) => state.postSlice.loading);
@@ -23,6 +21,12 @@ function List() {
   postsRef.current = posts;
   pageRef.current = page;
   const itemCount = 5;
+  
+  
+const URI = {
+  BASE2: process.env.REACT_APP_BASE_URI2,
+};
+ 
 
   const onIntersect = async ([entry], observer) => {
     // 타겟 엘리멘트가 교차영역에 있고, loading중이 아닐때
@@ -52,7 +56,8 @@ function List() {
       //로딩 시작
       await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
       let postsRetrieved = await axios.get(
-        `${URI.BASE}?_page=${pageRef.current}&_limit=${itemCount}`
+
+        `${URI.BASE2}?_page=${pageRef.current}&_limit=${itemCount}`
       );
       if (postsRetrieved) {
         setPost([...postsRef.current, ...postsRetrieved.data]);
@@ -93,9 +98,10 @@ function List() {
       <StyledContainer>
         {realpostlist.map((post, index) => {
           return (
+          
             <div key={post.id}>
               <ListItem
-                key={post.id}
+               
                 post={post}
                 onDeleteHandler={onDeleteHandler}
               />
