@@ -14,7 +14,6 @@ function List() {
 
   const postlist = useSelector((state) => state.postSlice.list);
   const loading = useSelector((state) => state.postSlice.loading);
-  console.log(loading);
   const dispatch = useDispatch();
   const [posts, setPost] = useState([]); //게시물들
   const [page, setPage] = useState(1); //현재 페이지
