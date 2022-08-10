@@ -12,6 +12,11 @@ import axios from "axios";
 import Loading from "../common/Loading";
 
 function List() {
+  const URI = {
+    BASE: process.env.REACT_APP_BASE_URI2,
+  };
+
+  console.log(URI.BASE);
   const postlist = useSelector((state) => state.postSlice.list);
   const dispatch = useDispatch();
   const [posts, setPost] = useState([]); //게시물들
