@@ -1,18 +1,6 @@
 {
   "list": [
     {
-      "writer": "adasda",
-      "title": "ddasdad",
-      "contents": "asdadsada",
-      "id": 1
-    },
-    {
-      "writer": "asdad",
-      "title": "asdasdasda",
-      "contents": "sdadadasd",
-      "id": 2
-    },
-    {
       "writer": "dasda",
       "title": "sada",
       "contents": "asdsasd",
@@ -211,14 +199,10 @@
       "id": 53
     },
     {
-      "writer": "ㄴㄴㄴㄴ",
-      "title": "ㄴㄴㄴㄴㄴㄴㄴㄴㄴ",
-      "contents": "ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ",
-      "id": 55
-      "writer": "하나하나",
-      "title": "하낳나한",
-      "contents": "테스트용ㅇㄹㅇㄹ",
-      "id": 51
+      "writer": "테스트",
+      "title": "테스트",
+      "contents": "테스틍ㄹㅇㄹㅇ",
+      "id": 54
     }
   ],
   "comment_list": [
@@ -289,6 +273,37 @@
       "username": "5",
       "content": "5",
       "id": 56
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹ",
+      "content": "ㅇㄹㅇㄹ",
+      "id": 58,
+      "todo_id": "2"
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇ",
+      "content": "ㅇㄹ",
+      "id": 59
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇ",
+      "content": "ㅇㄹㅇㄹ",
+      "id": 60
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇㄹ",
+      "content": "ㅇㄹㅇㄹㅇ",
+      "id": 61
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇㄹ",
+      "content": "ㅇㄹㅇㄹㅇㄹ",
+      "id": 62
     }
   ]
 }

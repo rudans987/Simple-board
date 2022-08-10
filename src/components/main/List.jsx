@@ -24,7 +24,9 @@ function List() {
   postsRef.current = posts;
   pageRef.current = page;
   const itemCount = 5;
-
+const URI = {
+  BASE2: process.env.REACT_APP_BASE_URI2,
+};
   // useEffect(() => {
   //   setPost(postlist);
   // }, [postlist]);
@@ -63,7 +65,7 @@ function List() {
       //로딩 시작
       await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
       let postsRetrieved = await axios.get(
-        `http://localhost:5001/list?_page=${pageRef.current}&_limit=${itemCount}`
+        `${URI.BASE2}?_page=${pageRef.current}&_limit=${itemCount}`
       );
       // console.log(postsRef.current.length, postsRetrieved.data.length, cnt);
       if (postsRetrieved) {
