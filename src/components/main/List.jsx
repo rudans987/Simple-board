@@ -68,9 +68,8 @@ function List() {
       //로딩 시작
       await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
       let postsRetrieved = await axios.get(
-        `http://localhost:5001/list?_page=${pageRef.current}&_limit=${itemCount}`
+        `${URI.BASE}?_page=${pageRef.current}&_limit=${itemCount}`
       );
-      // console.log(postsRef.current.length, postsRetrieved.data.length, cnt);
       if (postsRetrieved) {
         setPost([...postsRef.current, ...postsRetrieved.data]);
       }
