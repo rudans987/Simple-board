@@ -17,11 +17,12 @@ function List() {
   };
 
   const postlist = useSelector((state) => state.postSlice.list);
-
+  const loading = useSelector((state) => state.postSlice.loading);
+  console.log(loading);
   const dispatch = useDispatch();
   const [posts, setPost] = useState([]); //게시물들
   const [page, setPage] = useState(1); //현재 페이지
-  const [loading, setLoading] = useState(false); //로깅 스피너
+  const [isLoading, setLoading] = useState(false); //로깅 스피너
   const [cnt, setCnt] = useState(1);
   let postsRef = useRef({});
   let loadingRef = useRef(null);
@@ -44,10 +45,8 @@ function List() {
       await getPosts();
       setPage(pageRef.current + 1); //페이지 값 증가
       observer.observe(entry.target);
-      setLoading(true);
     } else if (entry.isIntersecting && loading) {
       observer.unobserve(entry.target);
-      setLoading(false);
     }
   };
 
