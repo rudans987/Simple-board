@@ -52,7 +52,7 @@ export const __getPostCount = createAsyncThunk(
     try {
       await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
       const response = await axios.get(
-        `http://localhost:5001/list?_page=${pageCurrent}&_limit=${itemCount}`
+        `${URI.BASE2}?_page=${pageCurrent}&_limit=${itemCount}`
       );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
