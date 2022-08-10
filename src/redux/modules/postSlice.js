@@ -79,7 +79,7 @@ const postSlice = createSlice({
       id: 150,
       title: "post 테스트",
     },
-
+    success: false,
     loading: false,
     error: null,
   },
@@ -94,6 +94,7 @@ const postSlice = createSlice({
         state.loading = false;
         // 리스트 전체 저장
         state.list = action.payload;
+        state.success = true;
       })
       .addCase(__getPostList.rejected, (state, action) => {
         state.loading = false;
@@ -105,6 +106,7 @@ const postSlice = createSlice({
       })
       .addCase(__addPost.fulfilled, (state, action) => {
         state.list = [action.payload, ...state.list];
+        state.success = true;
       })
       .addCase(__addPost.rejected, (state, action) => {
         state.loading = false;
@@ -116,6 +118,7 @@ const postSlice = createSlice({
       })
       .addCase(__deletePost.fulfilled, (state, action) => {
         state.list = state.list.filter((post) => post.id !== action.payload);
+        state.success = true;
       })
       .addCase(__deletePost.rejected, (state, action) => {
         state.loading = false;
@@ -126,10 +129,18 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__updatePost.fulfilled, (state, action) => {
-        const target = state.list.findIndex((post) => {
-          return post.id === action.payload.id;
+        return state.list.map((post) => {
+          if (post.id === action.payload.id) {
+            return {
+              ...post,
+              content: action.payload.contents,
+              title: action.payload.title,
+              writer: action.payload.writer,
+            };
+          } else {
+            return post;
+          }
         });
-        state.commentsByTodoId.data.splice(target, 1, action.payload);
       })
       .addCase(__updatePost.rejected, (state, action) => {
         state.loading = false;
@@ -140,6 +151,7 @@ const postSlice = createSlice({
       })
       .addCase(__getPostCount.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         // 리스트 전체 저장
         state.list = action.payload;
       })
