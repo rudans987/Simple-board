@@ -10,8 +10,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "../common/Button";
 import { VscTrash, VscEdit } from "react-icons/vsc";
-import styled from "styled-components";
-import { notInitialized } from "react-redux/es/utils/useSyncExternalStore";
+
 
 const useStyles = makeStyles({
   root: {
