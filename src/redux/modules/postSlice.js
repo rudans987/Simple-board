@@ -132,9 +132,10 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__updatePost.fulfilled, (state, action) => {
+        
         const target = state.list.findIndex((post) => {
-          return post.id === action.payload.id;
-        });
+          return post.id === Number(action.payload.id);
+        }); 
          state.list.splice(target, 1, action.payload);
       })
       .addCase(__updatePost.rejected, (state, action) => {
