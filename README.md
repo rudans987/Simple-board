@@ -1,5 +1,9 @@
 # Introduction Project
 - 만든 사람들 : 김경문, 김수정, 김주형 | 항해99 8기 주특기 숙련주차 4조
+- 역할분담 : 
+  - 김경문 - 댓글 CRUD, 댓글 페이지네이션, 커스텀 훅
+  - 김수정 - 게시글 CRUD, 무한스크롤
+  - 김주형 - 게시글 CURD, 만능버튼
 - 주 사용 기술 : ReactJS, Json-Server, Json DB, Redux-Toolkit, Redux-Thunk, Axios, Styled-Components
 - 구현 기능 : 게시글 CRUD, 댓글 CRUD, infinite scroll, pagination
 
@@ -28,6 +32,12 @@
   * 문제2 : useselector를 이용해서 리덕스 모듈에서 데이터를 가져오면 실시간으로 수정, 삭제한 결과가 화면에 렌더링 되지만, 모든 데이터를 다 가져오기 때문에 무한스크롤이 적용되지 않는 문제가 발생했습니다. 
  
   * 해결방법: postlist라는 변수에  useselector를 이용해 리덕스 내에서 저장된 모든 데이터를 가져와서 저장한 뒤, observer가 div를 관찰하는 데이터의 길이만큼 slice를 이용해서 잘라서 해결했습니다.
+```
+const newlist = postlist.slice(0, posts.length)
+```
+
+- env파일은 깃헙에 올라가지 않아 깃헙과 연결한 vercel에서도 env파일에 있는 값을 불러오지 못한 문제
+  - 해결 방법 : vervel setting에서 환경변수로 env key값과 value값을 넣어줘야 했다. 
   
 ### 파일 구조  
 ```
