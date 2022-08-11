@@ -6,6 +6,8 @@ import { __getCommnetsByTodoId } from "../redux/modules/commentsSlice";
 import { useForm } from "react-hook-form";
 import { __addPost, __updatePost } from "../redux/modules/postSlice";
 import axios from "axios";
+
+
 import Button from "../components/common/Button";
 import AddComment from "../components/comments/AddComment";
 import Comment from "../components/comments/Comment";
@@ -106,6 +108,7 @@ function Detail() {
 
   const onSubmit = (data) => {
     dispatch(__addPost({ ...data }));
+
     navigator("/");
   };
 
@@ -122,6 +125,7 @@ function Detail() {
     }
     navigator("/");
   };
+
 
   return (
     <>

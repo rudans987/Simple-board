@@ -21,7 +21,7 @@ export const __addPost = createAsyncThunk("ADD_POST", async (new_post_list) => {
 
 // 게시글 삭제
 export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
-  await axios.delete(`${URI.BASE2}/${postId}`);
+   await axios.delete(`${URI.BASE2}/${postId}`);
   // 포스트 아이디
   return postId;
 });
@@ -30,7 +30,9 @@ export const __deletePost = createAsyncThunk("DELETE_POST", async (postId) => {
 export const __updatePost = createAsyncThunk(
   "UPDATE_POST",
   async ({ id, writer, title, contents }) => {
+
     await axios.put(`${URI.BASE2}/${id}`, {
+
       id: id,
       writer: writer,
       title: title,
@@ -101,7 +103,7 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__addPost.fulfilled, (state, action) => {
-        state.list = [action.payload, ...state.list];
+        state.list = [...state.list, action.payload];
         state.success = true;
       })
       .addCase(__addPost.rejected, (state, action) => {
@@ -125,10 +127,11 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__updatePost.fulfilled, (state, action) => {
-        const target = state.list.findIndex(
-          (post) => post.id === action.payload.id
-        );
-        state.list.splice(target, 1, action.payload);
+        
+        const target = state.list.findIndex((post) => {
+          return post.id === Number(action.payload.id);
+        }); 
+         state.list.splice(target, 1, action.payload);
       })
       .addCase(__updatePost.rejected, (state, action) => {
         state.loading = false;

@@ -1,18 +1,6 @@
 {
   "list": [
     {
-      "writer": "adasda",
-      "title": "ddasdad",
-      "contents": "asdadsada",
-      "id": 1
-    },
-    {
-      "writer": "asdad",
-      "title": "asdasdasda",
-      "contents": "sdadadasd",
-      "id": 2
-    },
-    {
       "writer": "dasda",
       "title": "sada",
       "contents": "asdsasd",
@@ -209,6 +197,7 @@
       "title": "fffffffff",
       "contents": "zzzzzzzzzz",
       "id": 53
+
     }
   ],
   "comment_list": [
@@ -279,6 +268,37 @@
       "username": "5",
       "content": "5",
       "id": 56
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹ",
+      "content": "ㅇㄹㅇㄹ",
+      "id": 58,
+      "todo_id": "2"
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇ",
+      "content": "ㅇㄹ",
+      "id": 59
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇ",
+      "content": "ㅇㄹㅇㄹ",
+      "id": 60
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇㄹ",
+      "content": "ㅇㄹㅇㄹㅇ",
+      "id": 61
+    },
+    {
+      "todoId": "2",
+      "username": "ㅇㄹㅇㄹ",
+      "content": "ㅇㄹㅇㄹㅇㄹ",
+      "id": 62
     }
   ]
 }

@@ -8,13 +8,10 @@ import axios from "axios";
 import Loading from "../common/Loading";
 
 function List() {
-  const URI = {
-    BASE: process.env.REACT_APP_BASE_URI2,
-  };
+
 
   const postlist = useSelector((state) => state.postSlice.list);
   const loading = useSelector((state) => state.postSlice.loading);
-  console.log(loading);
   const dispatch = useDispatch();
   const [posts, setPost] = useState([]); //게시물들
   const [page, setPage] = useState(1); //현재 페이지
@@ -24,6 +21,12 @@ function List() {
   postsRef.current = posts;
   pageRef.current = page;
   const itemCount = 5;
+  
+  
+const URI = {
+  BASE2: process.env.REACT_APP_BASE_URI2,
+};
+ 
 
   const onIntersect = async ([entry], observer) => {
     // 타겟 엘리멘트가 교차영역에 있고, loading중이 아닐때
@@ -53,7 +56,8 @@ function List() {
       //로딩 시작
       await new Promise((resolve) => setTimeout(resolve, 100)); //기다려준다.
       let postsRetrieved = await axios.get(
-        `${URI.BASE}?_page=${pageRef.current}&_limit=${itemCount}`
+
+        `${URI.BASE2}?_page=${pageRef.current}&_limit=${itemCount}`
       );
       if (postsRetrieved) {
         setPost([...postsRef.current, ...postsRetrieved.data]);
@@ -76,27 +80,18 @@ function List() {
     }
   };
 
-  function compareArray(a, b) {
-    const answer = [];
-    for (let i = 0; i < a.length; i++) {
-      for (let j = 0; j < b.length; j++) {
-        if (a[i].id == b[j].id) {
-          answer.push(b[j]);
-        }
-      }
-    }
-    return answer;
-  }
-  const realpostlist = compareArray(postlist, posts);
 
+const newlist = postlist.slice(0, posts.length)
+console.log(newlist)
   return (
     <>
       <StyledContainer>
-        {realpostlist.map((post, index) => {
+        {newlist.map((post, index) => {
           return (
+          
             <div key={post.id}>
               <ListItem
-                key={post.id}
+               
                 post={post}
                 onDeleteHandler={onDeleteHandler}
               />
