@@ -108,6 +108,7 @@ function Detail() {
 
   const onSubmit = (data) => {
     dispatch(__addPost({ ...data }));
+
     navigator("/");
   };
 
@@ -124,6 +125,7 @@ function Detail() {
     }
     navigator("/");
   };
+
 
   return (
     <>

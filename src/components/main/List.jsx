@@ -80,23 +80,13 @@ const URI = {
     }
   };
 
-  function compareArray(a, b) {
-    const answer = [];
-    for (let i = 0; i < a.length; i++) {
-      for (let j = 0; j < b.length; j++) {
-        if (a[i].id == b[j].id) {
-          answer.push(b[j]);
-        }
-      }
-    }
-    return answer;
-  }
-  const realpostlist = compareArray(postlist, posts);
 
+const newlist = postlist.slice(0, posts.length)
+console.log(newlist)
   return (
     <>
       <StyledContainer>
-        {realpostlist.map((post, index) => {
+        {newlist.map((post, index) => {
           return (
           
             <div key={post.id}>

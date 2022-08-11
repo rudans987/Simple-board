@@ -103,7 +103,7 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__addPost.fulfilled, (state, action) => {
-        state.list = [action.payload, ...state.list];
+        state.list = [...state.list, action.payload];
         state.success = true;
       })
       .addCase(__addPost.rejected, (state, action) => {
@@ -127,10 +127,11 @@ const postSlice = createSlice({
         state.loading = true;
       })
       .addCase(__updatePost.fulfilled, (state, action) => {
+        
         const target = state.list.findIndex((post) => {
-          return post.id === action.payload.id;
-        });
-        state.commentsByTodoId.data.splice(target, 1, action.payload);
+          return post.id === Number(action.payload.id);
+        }); 
+         state.list.splice(target, 1, action.payload);
       })
       .addCase(__updatePost.rejected, (state, action) => {
         state.loading = false;
