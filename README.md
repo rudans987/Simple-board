@@ -18,18 +18,69 @@
 - logger (개발 편하게 도와줌) 설치 : `yarn add redux-loger`
 - styled-components (스타일 적용) 설치 : `yarn add styled-components`
 - 유효성 검사(폼 사용자 입력 안내 적용) : `yarn add react-hook-form`
+- observer (무한스크롤) 설치 : `yarn add react-intersection-observer`
 
-
-### Troube Shooting
-- 메인페이지에서 게시글을 수정, 삭제해도 실시간으로 반영되지 않은 문제
-  * 문제1 : 무한스크롤을 쓰면서 발생 무한스크롤에서 불러오는 axios를 모듈이 아닌 ui에서 쓰다보니
-  무한스크롤로 데이터를 가져오면 수정,삭제해도 실시간으로 반영되지 못했다.
-  * 문제2 : useselector를 이용해서 데이터를 가져오면 실시간으로 반영은 되지만 데이터를 다 가져와서 무한스크롤이 적용되지 않았다.
-  * 해결방법: postlist라는 변수로  useselector를 이용해 실시간으로 반영되는 모든 데이터를 가져왔고 무한스크롤이 관찰하는 데이터의 길이만큼 slice를 이용해서 잘라서 해결했다.
+### Trouble Shooting
+- 메인페이지에서 게시글을 수정, 삭제했을 때 실시간으로 화면에 렌더링 되지 않는 문제 
   
-    
+  * 문제1 : 무한스크롤을 컴포넌트에서 구현하면서 리덕스 데이터에는 반영되지 않는 문제. 무한스크롤을 구현하기 위해서 redux 모듈이 아니라 컴포넌트에서 axios로 비동기 통신을 하면서 데이터를 메인 화면에 보이게 구현을 했습니다. 수정, 삭제해도 db내에서는 반영되지만, axios로 비동기 통신으로 직접 가져오기 때문에 리덕스 내의 데이터에서는 변화가 없으므로 수정, 삭제한 결과를 실시간으로 화면에 재렌더링하지 못하는 문제가 발생했습니다. 
 
-
+  * 문제2 : useselector를 이용해서 리덕스 모듈에서 데이터를 가져오면 실시간으로 수정, 삭제한 결과가 화면에 렌더링 되지만, 모든 데이터를 다 가져오기 때문에 무한스크롤이 적용되지 않는 문제가 발생했습니다. 
+ 
+  * 해결방법: postlist라는 변수에  useselector를 이용해 리덕스 내에서 저장된 모든 데이터를 가져와서 저장한 뒤, observer가 div를 관찰하는 데이터의 길이만큼 slice를 이용해서 잘라서 해결했습니다.
+  
+### 파일 구조  
+```
+C:.
+|   App.css
+|   App.js
+|   App.test.js
+|   index.css
+|   index.js
+|   logo.svg
+|   reportWebVitals.js
+|   setupTests.js
+|   simple-board.txt
+|   tailwind.config.js
+|   
++---components
+|   +---comments
+|   |       AddComment.js
+|   |       Comment.js
+|   |       Pagination.js
+|   |       
+|   +---common
+|   |       Button.jsx
+|   |       Header.jsx
+|   |       Layout.jsx
+|   |       Loading.jsx
+|   |       Wrapper.jsx
+|   |       
+|   +---hooks
+|   |       useFetch.js
+|   |       useinput.js
+|   |       
+|   \---main
+|           List.jsx
+|           ListItem.jsx
+|           
++---lib
+|   \---styles
+|           palette.js
+|           
++---pages
+|       Detail.jsx
+|       Home.jsx
+|       
+\---redux
+    |   store.js
+    |   
+    +---config
+    \---modules
+            commentSlice.js
+            commentsSlice.js
+            postSlice.js
+```
   
 
 -----
@@ -108,7 +159,7 @@
     "id": 2
 },
   ],
-  "comments" : [
+  "comment_list" : [
    {
     "todoId": 1,
     "username": "김경문",
@@ -124,5 +175,3 @@
   ]
 }
 ```
-
-
