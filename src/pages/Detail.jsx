@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,7 +6,6 @@ import { __getCommnetsByTodoId } from "../redux/modules/commentsSlice";
 import { useForm } from "react-hook-form";
 import { __addPost, __updatePost } from "../redux/modules/postSlice";
 import axios from "axios";
-
 
 import Button from "../components/common/Button";
 import AddComment from "../components/comments/AddComment";
@@ -125,7 +124,6 @@ function Detail() {
     }
     navigator("/");
   };
-
 
   return (
     <>
