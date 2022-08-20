@@ -14,7 +14,7 @@
 
 ### Install packages
 - json-server (서버) 설지 : `yarn add json-server`
-- 리덕스 설치 : `yarn add react-redux`
+- 리덕스 설치 : `yarn add redux react-redux`
 - 툴킷 (리덕스) 설치 : `yarn add @reduxjs/toolkit`
 - thunk (미들웨어) 설치 : `yarn add redux-thunk`
 - axios(통신) 설치 : `yarn add axios` 
