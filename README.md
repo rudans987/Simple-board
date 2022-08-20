@@ -19,7 +19,7 @@
 - thunk (미들웨어) 설치 : `yarn add redux-thunk`
 - axios(통신) 설치 : `yarn add axios` 
 - 라우터 (페이지 이동) 설치 : `yarn add react-router-dom` 
-- logger (개발 편하게 도와줌) 설치 : `yarn add redux-loger`
+- logger (개발 편하게 도와줌) 설치 : `yarn add redux-logger`
 - styled-components (스타일 적용) 설치 : `yarn add styled-components`
 - 유효성 검사(폼 사용자 입력 안내 적용) : `yarn add react-hook-form`
 - observer (무한스크롤) 설치 : `yarn add react-intersection-observer`
